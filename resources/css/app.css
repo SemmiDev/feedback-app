@@ -1,0 +1,215 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../node_modules/flowbite";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+
+/* Custom styles for line clamping */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
+  /* Dark mode scrollbar */
+  .dark ::-webkit-scrollbar-track {
+    background: #374151;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #6b7280;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+
+  /* Star rating hover effects */
+  .star-icon {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .star-icon:hover {
+    transform: scale(1.1);
+  }
+
+  /* Custom focus styles */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
+  }
+
+  /* Animation for success messages */
+  @keyframes slideInDown {
+    from {
+      transform: translate3d(0, -100%, 0);
+      visibility: visible;
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slideInDown 0.3s ease-out;
+  }
+
+  /* Header gradient background */
+  .header-gradient {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  }
+
+  /* Sidebar active item animation */
+  .sidebar-active {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar-active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Profile dropdown animation */
+  .profile-dropdown {
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.2s ease-out;
+  }
+
+  .profile-dropdown.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Notification pulse */
+  .notification-pulse {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Mobile menu slide animation */
+  @media (max-width: 640px) {
+    #logo-sidebar {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #logo-sidebar.translate-x-0 {
+      transform: translateX(0);
+    }
+  }
+
+  /* Hover effects for cards */
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Loading spinner */
+  .spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #10b981;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #10b981, #059669);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass effect */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Button hover effects */
+  .btn-emerald {
+    @apply bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg;
+  }
+
+  /* Sidebar menu item hover */
+  .menu-item {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .menu-item:hover {
+    @apply transform translate-x-1;
+  }
+
+  /* Stats card animation */
+  .stats-card {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .stats-card:hover {
+    @apply transform scale-105 shadow-lg;
+  }
