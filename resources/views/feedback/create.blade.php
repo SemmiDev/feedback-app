@@ -10,7 +10,6 @@
             style="background: linear-gradient(135deg, #10b981, #059669, #047857);">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3 sm:space-x-4">
-                    <!-- MUI Logo Placeholder -->
                     <div
                         class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white/10 flex items-center justify-center overflow-hidden backdrop-blur-sm">
                         <img src="/logo-mui.png" alt="MUI Logo" class="object-contain w-12 h-12 sm:w-16 sm:h-16">
@@ -22,7 +21,6 @@
                             Riau</h1>
                     </div>
                 </div>
-                <!-- Second Logo Placeholder -->
                 <div
                     class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white/10 flex items-center justify-center overflow-hidden backdrop-blur-sm">
                     <img src="/logo-unri.png" alt="UNRI Logo" class="object-contain w-10 h-10 sm:w-14 sm:h-14">
@@ -51,7 +49,6 @@
 
                     <!-- Informasi Jamaah -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                        <!-- Nama Penceramah -->
                         <div>
                             <label for="preacher_name" class="block text-sm font-medium text-gray-700 mb-2">
                                 Nama Penceramah (Jika Ada)
@@ -72,7 +69,6 @@
                             @enderror
                         </div>
 
-                        <!-- Nama Masjid -->
                         <div>
                             <label for="mosque_name" class="block text-sm font-medium text-gray-700 mb-2">
                                 Nama Masjid
@@ -94,196 +90,231 @@
                         </div>
                     </div>
 
-                    <!-- Rating Sections -->
-                    <div class="space-y-6 sm:space-y-8">
+                    <!-- Rating Sections with Accordion -->
+                    <div class="space-y-4" id="accordion-collapse" data-accordion="collapse">
                         <!-- 1. Relevansi Materi Dakwah -->
-                        <div
-                            class="border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
-                            <div class="flex items-center mb-3">
-                                <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-emerald-600 font-bold text-sm">1</span>
+                        <div class="border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
+                            <h3 id="accordion-heading-1">
+                                <button type="button" class="flex items-center justify-between w-full p-4 sm:p-6 font-medium text-gray-800 text-left" data-accordion-target="#accordion-body-1" aria-expanded="true" aria-controls="accordion-body-1">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-emerald-600 font-bold text-sm">1</span>
+                                        </div>
+                                        <span class="text-base sm:text-lg font-semibold">Relevansi Materi Dakwah</span>
+                                    </div>
+                                    <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="accordion-body-1" class="hidden" aria-labelledby="accordion-heading-1">
+                                <div class="p-4 sm:p-6 pt-0">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Sejauh mana materi sesuai dengan kebutuhan?</p>
+                                    <div class="flex flex-col items-center ml-11">
+                                        <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <label class="cursor-pointer group flex flex-col items-center">
+                                                    <input type="radio" name="relevance_rating" value="{{ $i }}"
+                                                        class="sr-only rating-input"
+                                                        {{ old('relevance_rating') == $i ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
+                                                        ⭐
+                                                    </div>
+                                                    <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
+                                                </label>
+                                            @endfor
+                                        </div>
+                                        <div class="flex justify-between w-full mt-2">
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Relevan</span>
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Relevan</span>
+                                        </div>
+                                    </div>
+                                    @error('relevance_rating')
+                                        <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Relevansi Materi Dakwah
-                                </h3>
                             </div>
-                            <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Sejauh mana materi sesuai dengan
-                                kebutuhan?</p>
-
-                            <div class="flex flex-col items-center ml-11">
-                                <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <label class="cursor-pointer group flex flex-col items-center">
-                                            <input type="radio" name="relevance_rating" value="{{ $i }}"
-                                                class="sr-only rating-input"
-                                                {{ old('relevance_rating') == $i ? 'checked' : '' }}>
-                                            <div
-                                                class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
-                                                ⭐
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
-                                        </label>
-                                    @endfor
-                                </div>
-                                <div class="flex justify-between w-full mt-2">
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Relevan</span>
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Relevan</span>
-                                </div>
-                            </div>
-                            @error('relevance_rating')
-                                <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
-                            @enderror
                         </div>
 
-                        <!-- 2. Kejelasan & Kualitas Penyampaian Penceramah -->
-                        <div
-                            class="border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
-                            <div class="flex items-center mb-3">
-                                <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-emerald-600 font-bold text-sm">2</span>
+                        <!-- 2. Kejelasan & Kualitas Penyampaian -->
+                        <div class="border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
+                            <h3 id="accordion-heading-2">
+                                <button type="button" class="flex items-center justify-between w-full p-4 sm:p-6 font-medium text-gray-800 text-left" data-accordion-target="#accordion-body-2" aria-expanded="false" aria-controls="accordion-body-2">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-emerald-600 font-bold text-sm">2</span>
+                                        </div>
+                                        <span class="text-base sm:text-lg font-semibold">Kejelasan & Kualitas Penyampaian</span>
+                                    </div>
+                                    <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="accordion-body-2" class="hidden" aria-labelledby="accordion-heading-2">
+                                <div class="p-4 sm:p-6 pt-0">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah ceramah jelas, mudah dipahami, menarik?</p>
+                                    <div class="flex flex-col items-center ml-11">
+                                        <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <label class="cursor-pointer group flex flex-col items-center">
+                                                    <input type="radio" name="clarity_rating" value="{{ $i }}"
+                                                        class="sr-only rating-input"
+                                                        {{ old('clarity_rating') == $i ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
+                                                        ⭐
+                                                    </div>
+                                                    <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
+                                                </label>
+                                            @endfor
+                                        </div>
+                                        <div class="flex justify-between w-full mt-2">
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Jelas</span>
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Jelas</span>
+                                        </div>
+                                    </div>
+                                    @error('clarity_rating')
+                                        <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Kejelasan & Kualitas
-                                    Penyampaian</h3>
                             </div>
-                            <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah ceramah jelas, mudah
-                                dipahami, menarik?</p>
-
-                            <div class="flex flex-col items-center ml-11">
-                                <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <label class="cursor-pointer group flex flex-col items-center">
-                                            <input type="radio" name="clarity_rating" value="{{ $i }}"
-                                                class="sr-only rating-input"
-                                                {{ old('clarity_rating') == $i ? 'checked' : '' }}>
-                                            <div
-                                                class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
-                                                ⭐
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
-                                        </label>
-                                    @endfor
-                                </div>
-                                <div class="flex justify-between w-full mt-2">
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Jelas</span>
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Jelas</span>
-                                </div>
-                            </div>
-                            @error('clarity_rating')
-                                <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
-                            @enderror
                         </div>
 
                         <!-- 3. Pemahaman Jamaah terhadap Isi Ceramah -->
-                        <div
-                            class="border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
-                            <div class="flex items-center mb-3">
-                                <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-emerald-600 font-bold text-sm">3</span>
+                        <div class="border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
+                            <h3 id="accordion-heading-3">
+                                <button type="button" class="flex items-center justify-between w-full p-4 sm:p-6 font-medium text-gray-800 text-left" data-accordion-target="#accordion-body-3" aria-expanded="false" aria-controls="accordion-body-3">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-emerald-600 font-bold text-sm">3</span>
+                                        </div>
+                                        <span class="text-base sm:text-lg font-semibold">Pemahaman Jamaah terhadap Isi Ceramah</span>
+                                    </div>
+                                    <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="accordion-body-3" class="hidden" aria-labelledby="accordion-heading-3">
+                                <div class="p-4 sm:p-6 pt-0">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Seberapa paham Jamaah dengan isi ceramah?</p>
+                                    <div class="flex flex-col items-center ml-11">
+                                        <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <label class="cursor-pointer group flex flex-col items-center">
+                                                    <input type="radio" name="understanding_rating" value="{{ $i }}"
+                                                        class="sr-only rating-input"
+                                                        {{ old('understanding_rating') == $i ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
+                                                        ⭐
+                                                    </div>
+                                                    <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
+                                                </label>
+                                            @endfor
+                                        </div>
+                                        <div class="flex justify-between w-full mt-2">
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Paham</span>
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Paham</span>
+                                        </div>
+                                    </div>
+                                    @error('understanding_rating')
+                                        <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Pemahaman Jamaah terhadap
-                                    Isi Ceramah</h3>
                             </div>
-                            <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Seberapa paham Jamaah dengan isi
-                                ceramah?</p>
-
-                            <div class="flex flex-col items-center ml-11">
-                                <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <label class="cursor-pointer group flex flex-col items-center">
-                                            <input type="radio" name="understanding_rating"
-                                                value="{{ $i }}" class="sr-only rating-input"
-                                                {{ old('understanding_rating') == $i ? 'checked' : '' }}>
-                                            <div
-                                                class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
-                                                ⭐
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
-                                        </label>
-                                    @endfor
-                                </div>
-                                <div class="flex justify-between w-full mt-2">
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Paham</span>
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Paham</span>
-                                </div>
-                            </div>
-                            @error('understanding_rating')
-                                <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
-                            @enderror
                         </div>
 
                         <!-- 4. Kesesuaian Waktu & Durasi Ceramah -->
-                        <div
-                            class="border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
-                            <div class="flex items-center mb-3">
-                                <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-emerald-600 font-bold text-sm">4</span>
+                        <div class="border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
+                            <h3 id="accordion-heading-4">
+                                <button type="button" class="flex items-center justify-between w-full p-4 sm:p-6 font-medium text-gray-800 text-left" data-accordion-target="#accordion-body-4" aria-expanded="false" aria-controls="accordion-body-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-emerald-600 font-bold text-sm">4</span>
+                                        </div>
+                                        <span class="text-base sm:text-lg font-semibold">Kesesuaian Waktu & Durasi Ceramah</span>
+                                    </div>
+                                    <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="accordion-body-4" class="hidden" aria-labelledby="accordion-heading-4">
+                                <div class="p-4 sm:p-6 pt-0">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah waktu & durasi ceramah sudah sesuai?</p>
+                                    <div class="flex flex-col items-center ml-11">
+                                        <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <label class="cursor-pointer group flex flex-col items-center">
+                                                    <input type="radio" name="timing_rating" value="{{ $i }}"
+                                                        class="sr-only rating-input"
+                                                        {{ old('timing_rating') == $i ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
+                                                        ⭐
+                                                    </div>
+                                                    <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
+                                                </label>
+                                            @endfor
+                                        </div>
+                                        <div class="flex justify-between w-full mt-2">
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Sesuai</span>
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Sesuai</span>
+                                        </div>
+                                    </div>
+                                    @error('timing_rating')
+                                        <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Kesesuaian Waktu & Durasi
-                                    Ceramah</h3>
                             </div>
-                            <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah waktu & durasi ceramah
-                                sudah sesuai?</p>
-
-                            <div class="flex flex-col items-center ml-11">
-                                <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <label class="cursor-pointer group flex flex-col items-center">
-                                            <input type="radio" name="timing_rating" value="{{ $i }}"
-                                                class="sr-only rating-input"
-                                                {{ old('timing_rating') == $i ? 'checked' : '' }}>
-                                            <div
-                                                class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
-                                                ⭐
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
-                                        </label>
-                                    @endfor
-                                </div>
-                                <div class="flex justify-between w-full mt-2">
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Sesuai</span>
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Sesuai</span>
-                                </div>
-                            </div>
-                            @error('timing_rating')
-                                <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
-                            @enderror
                         </div>
 
                         <!-- 5. Interaksi & Keterlibatan Jamaah -->
-                        <div
-                            class="border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
-                            <div class="flex items-center mb-3">
-                                <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-emerald-600 font-bold text-sm">5</span>
+                        <div class="border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-white to-gray-50">
+                            <h3 id="accordion-heading-5">
+                                <button type="button" class="flex items-center justify-between w-full p-4 sm:p-6 font-medium text-gray-800 text-left" data-accordion-target="#accordion-body-5" aria-expanded="false" aria-controls="accordion-body-5">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-emerald-600 font-bold text-sm">5</span>
+                                        </div>
+                                        <span class="text-base sm:text-lg font-semibold">Interaksi & Keterlibatan Jamaah</span>
+                                    </div>
+                                    <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="accordion-body-5" class="hidden" aria-labelledby="accordion-heading-5">
+                                <div class="p-4 sm:p-6 pt-0">
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah ada sesi tanya jawab, interaksi?</p>
+                                    <div class="flex flex-col items-center ml-11">
+                                        <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <label class="cursor-pointer group flex flex-col items-center">
+                                                    <input type="radio" name="interaction_rating" value="{{ $i }}"
+                                                        class="sr-only rating-input"
+                                                        {{ old('interaction_rating') == $i ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
+                                                        ⭐
+                                                    </div>
+                                                    <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
+                                                </label>
+                                            @endfor
+                                        </div>
+                                        <div class="flex justify-between w-full mt-2">
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Berinteraksi</span>
+                                            <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Berinteraksi</span>
+                                        </div>
+                                    </div>
+                                    @error('interaction_rating')
+                                        <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Interaksi & Keterlibatan
-                                    Jamaah</h3>
                             </div>
-                            <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah ada sesi tanya jawab,
-                                interaksi?</p>
-
-                            <div class="flex flex-col items-center ml-11">
-                                <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <label class="cursor-pointer group flex flex-col items-center">
-                                            <input type="radio" name="interaction_rating"
-                                                value="{{ $i }}" class="sr-only rating-input"
-                                                {{ old('interaction_rating') == $i ? 'checked' : '' }}>
-                                            <div
-                                                class="w-8 h-8 sm:w-10 sm:h-10 text-2xl sm:text-3xl transition-all duration-300 star-icon flex items-center justify-center transform hover:scale-110 group-hover:drop-shadow-lg">
-                                                ⭐
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">{{ $i }}</span>
-                                        </label>
-                                    @endfor
-                                </div>
-                                <div class="flex justify-between w-full mt-2">
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Tidak Berinteraksi</span>
-                                    <span class="text-xs sm:text-sm text-gray-500 font-medium">Sangat Berinteraksi</span>
-                                </div>
-                            </div>
-                            @error('interaction_rating')
-                                <p class="mt-1 text-sm text-red-600 text-center">{{ $message }}</p>
-                            @enderror
                         </div>
                     </div>
 
@@ -334,11 +365,13 @@
 
     @push('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="https://unpkg.com/@themesberg/flowbite@1.3.0/dist/flowbite.min.css" rel="stylesheet" />
     @endpush
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://unpkg.com/@themesberg/flowbite@1.3.0/dist/flowbite.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Initialize Select2 for Nama Penceramah
@@ -359,9 +392,9 @@
                             return {
                                 results: data.results.map(function(item) {
                                     return {
-                                        id: item.text, // Use text as id for form submission
+                                        id: item.text,
                                         text: item.text,
-                                        imapp_id: item.imapp_id_penceramah // Store ID separately
+                                        imapp_id: item.imapp_id_penceramah
                                     };
                                 })
                             };
@@ -401,9 +434,9 @@
                             return {
                                 results: data.results.map(function(item) {
                                     return {
-                                        id: item.text, // Use text as id for form submission
+                                        id: item.text,
                                         text: item.text,
-                                        imapp_id: item.imapp_id_masjid // Store ID separately
+                                        imapp_id: item.imapp_id_masjid
                                     };
                                 })
                             };
@@ -453,10 +486,8 @@
                     const container = document.querySelector(`input[name="${groupName}"]`).closest(
                         '.flex.items-center.justify-center');
 
-                    // Initialize stars without default selection
                     resetStars(groupName);
 
-                    // Set initial state based on old input only
                     const checkedInput = document.querySelector(`input[name="${groupName}"]:checked`);
                     if (checkedInput) {
                         updateStars(groupName, parseInt(checkedInput.value));
