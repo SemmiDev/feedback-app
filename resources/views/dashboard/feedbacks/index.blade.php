@@ -80,8 +80,9 @@
             <div class="flex space-x-2">
                 <button
                     type="submit"
-                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                >
+                    {{-- class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500" --}}
+                    class="w-full inline-flex bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-300 focus:ring-opacity-50 border-0"
+                    style="background-color: #10b981 !important; color: white !important;">
                     Filter
                 </button>
                 <a
@@ -147,7 +148,8 @@
                         <div class="flex items-center space-x-2 ml-4">
                             <a
                                 href="{{ route('dashboard.feedbacks.show', $feedback) }}"
-                                class="text-emerald-600 hover:text-emerald-500 text-sm font-medium"
+                                class="text-emerald-600 hover:text-emerald-500 text-sm font-medium px-3 py-1 rounded transition-colors"
+                                style="background-color: #d1fae5;"
                             >
                                 View
                             </a>
@@ -161,7 +163,8 @@
                                 @method('DELETE')
                                 <button
                                     type="submit"
-                                    class="text-red-600 hover:text-red-500 text-sm font-medium"
+                                    class="text-red-600 hover:text-white text-sm font-medium px-3 py-1 rounded transition-colors"
+                                    style="background-color: #fee2e2;"
                                 >
                                     Delete
                                 </button>
