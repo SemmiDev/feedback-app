@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,19 +18,48 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Flowbite -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
 
     <!-- Emerald Color Variables -->
     <style>
-    :root {
-      --emerald-50: #ecfdf5;
-      --emerald-500: #10b981;
-      --emerald-600: #059669;
-      --emerald-700: #047857;
-    }
+        :root {
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 40px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 40px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 25px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            padding-left: 12px;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__placeholder {
+            color: #9ca3af;
+        }
     </style>
+
+    @yield('styles')
 </head>
+
 <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
     <div class="min-h-screen">
         @yield('content')
@@ -39,4 +69,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     @stack('scripts')
 </body>
+
 </html>

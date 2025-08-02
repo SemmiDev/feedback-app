@@ -16,24 +16,48 @@ class DashboardController extends Controller
 
         // Get statistics
         $totalFeedbacks = Feedback::count();
-        $averageRating = Feedback::avg('rating');
+
+        // Calculate average ratings for each category
+        $averageRatings = [
+            'relevansi' => Feedback::avg('relevansi_rating') ?? 0,
+            'kejelasan' => Feedback::avg('kejelasan_rating') ?? 0,
+            'pemahaman_jamaah' => Feedback::avg('pemahaman_jamaah_rating') ?? 0,
+            'kesesuaian_waktu' => Feedback::avg('kesesuaian_waktu_rating') ?? 0,
+            'interaksi_jamaah' => Feedback::avg('interaksi_jamaah_rating') ?? 0,
+        ];
+
         $recentFeedbacks = Feedback::recent(7)->count();
 
-        // Get rating distribution
-        $ratingDistribution = Feedback::select('rating', DB::raw('count(*) as count'))
-            ->groupBy('rating')
-            ->orderBy('rating')
-            ->get()
-            ->pluck('count', 'rating')
-            ->toArray();
+        // Get rating distribution for each rating type
+        $ratingFields = [
+            'relevansi_rating' => 'Relevansi Materi',
+            'kejelasan_rating' => 'Kejelasan Penyampaian',
+            'pemahaman_jamaah_rating' => 'Pemahaman Jamaah',
+            'kesesuaian_waktu_rating' => 'Kesesuaian Waktu',
+            'interaksi_jamaah_rating' => 'Interaksi Jamaah',
+        ];
 
-        // Fill missing ratings with 0
-        for ($i = 1; $i <= 5; $i++) {
-            if (!isset($ratingDistribution[$i])) {
-                $ratingDistribution[$i] = 0;
+        $ratingDistribution = [];
+        foreach ($ratingFields as $field => $label) {
+            $distribution = Feedback::select($field, DB::raw('count(*) as count'))
+                ->groupBy($field)
+                ->orderBy($field)
+                ->get()
+                ->pluck('count', $field)
+                ->toArray();
+
+            // Fill missing ratings with 0
+            for ($i = 1; $i <= 5; $i++) {
+                if (!isset($distribution[$i])) {
+                    $distribution[$i] = 0;
+                }
             }
+            ksort($distribution);
+            $ratingDistribution[$field] = [
+                'label' => $label,
+                'data' => $distribution,
+            ];
         }
-        ksort($ratingDistribution);
 
         // Get recent feedbacks for display
         $latestFeedbacks = Feedback::latest()->take(5)->get();
@@ -52,7 +76,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact(
             'totalFeedbacks',
-            'averageRating',
+            'averageRatings',
             'recentFeedbacks',
             'ratingDistribution',
             'latestFeedbacks',

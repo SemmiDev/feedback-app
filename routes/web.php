@@ -16,6 +16,10 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/autocomplete/penceramah', [FeedbackController::class, 'autocompletePenceramah'])->name('autocomplete.penceramah');
+Route::get('/autocomplete/masjid', [FeedbackController::class, 'autocompleteMasjid'])->name('autocomplete.masjid');
+
+
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');

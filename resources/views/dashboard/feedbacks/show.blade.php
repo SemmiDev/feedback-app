@@ -11,7 +11,7 @@
         </div>
         <a
             href="{{ route('dashboard.feedbacks.index') }}"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-emerald-600 hover:text-emerald-500"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-emerald-600 hover:text-emerald-500 hover:bg-gray-50 transition-colors"
         >
             ← Back to Feedbacks
         </a>
@@ -22,16 +22,17 @@
     <div class="px-4 py-5 sm:px-6">
         <div class="flex items-center space-x-4">
             <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-                <span class="text-xl font-medium text-gray-700">{{ substr($feedback->name, 0, 1) }}</span>
+                <span class="text-xl font-medium text-gray-700">{{ substr($feedback->nama_penceramah ?? 'Anonim', 0, 1) }}</span>
             </div>
             <div>
                 <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    {{ $feedback->name }}
+                    {{ $feedback->nama_penceramah ?? 'Anonim' }}
                 </h3>
+                <p class="text-sm text-gray-600">{{ $feedback->nama_masjid ?? 'Tidak disebutkan' }}</p>
                 <div class="flex items-center space-x-2 mt-1">
-                    <span class="{{ $feedback->rating_color }} text-lg">{{ $feedback->stars }}</span>
+                    <span class="{{ $feedback->average_rating_color }} text-lg">{{ $feedback->average_stars }}</span>
                     <span class="text-sm text-gray-500">
-                        {{ $feedback->rating }}/5 stars
+                        {{ number_format($feedback->average_rating, 1) }}/5 stars (Average)
                     </span>
                 </div>
             </div>
@@ -54,33 +55,64 @@
 
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">
-                    Rating
+                    Ratings
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <div class="flex items-center space-x-2">
-                        <span class="{{ $feedback->rating_color }} text-xl">{{ $feedback->stars }}</span>
-                        <span class="text-gray-600">
-                            {{ $feedback->rating }} out of 5 stars
-                        </span>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span>Relevansi Materi:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="{{ $feedback->relevansi_rating_color }} text-lg">{{ $feedback->relevansi_stars }}</span>
+                                <span class="text-gray-600">{{ $feedback->relevansi_rating }}/5</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Kejelasan Penyampaian:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="{{ $feedback->kejelasan_rating_color }} text-lg">{{ $feedback->kejelasan_stars }}</span>
+                                <span class="text-gray-600">{{ $feedback->kejelasan_rating }}/5</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Pemahaman Jamaah:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="{{ $feedback->pemahaman_jamaah_rating_color }} text-lg">{{ $feedback->pemahaman_jamaah_stars }}</span>
+                                <span class="text-gray-600">{{ $feedback->pemahaman_jamaah_rating }}/5</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Kesesuaian Waktu:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="{{ $feedback->kesesuaian_waktu_rating_color }} text-lg">{{ $feedback->kesesuaian_waktu_stars }}</span>
+                                <span class="text-gray-600">{{ $feedback->kesesuaian_waktu_rating }}/5</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Interaksi Jamaah:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="{{ $feedback->interaksi_jamaah_rating_color }} text-lg">{{ $feedback->interaksi_jamaah_stars }}</span>
+                                <span class="text-gray-600">{{ $feedback->interaksi_jamaah_rating }}/5</span>
+                            </div>
+                        </div>
                     </div>
                 </dd>
             </div>
 
-            @if($feedback->comment)
+            @if($feedback->saran)
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
-                        Comment
+                        Saran/Kesan
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <div class="bg-white rounded-lg p-4 border border-gray-200">
-                            <p class="whitespace-pre-wrap">{{ $feedback->comment }}</p>
+                            <p class="whitespace-pre-wrap">{{ $feedback->saran }}</p>
                         </div>
                     </dd>
                 </div>
             @else
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
-                        Comment
+                        Saran/Kesan
                     </dt>
                     <dd class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2 italic">
                         No comment provided

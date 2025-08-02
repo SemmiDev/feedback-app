@@ -63,6 +63,20 @@ return [
             ]) : [],
         ],
 
+        'peta_dakwah' => [
+            'driver' => 'mysql',
+            'host' => env('DB_PETA_DAKWAH_HOST', '127.0.0.1'),
+            'port' => env('DB_PETA_DAKWAH_PORT', '3306'),
+            'database' => env('DB_PETA_DAKWAH_DATABASE', 'peta_dakwah'),
+            'username' => env('DB_PETA_DAKWAH_USERNAME', 'root'),
+            'password' => env('DB_PETA_DAKWAH_PASSWORD', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
+use App\Models\Masjid;
+use App\Models\Penceramah;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -33,22 +35,59 @@ class FeedbackController extends Controller
 
         $validated = $request->validate(
             [
-                'name' => 'required|string|max:255',
-                'rating' => 'required|integer|min:1|max:5',
-                'comment' => 'nullable|string|max:1000',
+                'preacher_name' => 'nullable|string|max:255',
+                'mosque_name' => 'nullable|string|max:255',
+                'imapp_id_penceramah' => 'nullable|integer',
+                'imapp_id_masjid' => 'nullable|integer',
+                'relevance_rating' => 'required|integer|min:1|max:5',
+                'clarity_rating' => 'required|integer|min:1|max:5',
+                'understanding_rating' => 'required|integer|min:1|max:5',
+                'timing_rating' => 'required|integer|min:1|max:5',
+                'interaction_rating' => 'required|integer|min:1|max:5',
+                'suggestions' => 'nullable|string|max:1000',
             ],
             [
-                'name.required' => 'Nama jamaah wajib diisi.',
-                'name.max' => 'Nama jamaah tidak boleh lebih dari 255 karakter.',
-                'rating.required' => 'Rating ceramah wajib dipilih.',
-                'rating.integer' => 'Rating harus berupa angka.',
-                'rating.min' => 'Rating minimal 1 bintang.',
-                'rating.max' => 'Rating maksimal 5 bintang.',
-                'comment.max' => 'Komentar tidak boleh lebih dari 1000 karakter.',
+                'preacher_name.max' => 'Nama penceramah tidak boleh lebih dari 255 karakter.',
+                'mosque_name.max' => 'Nama masjid tidak boleh lebih dari 255 karakter.',
+                'relevance_rating.required' => 'Rating relevansi materi dakwah wajib dipilih.',
+                'relevance_rating.integer' => 'Rating relevansi harus berupa angka.',
+                'relevance_rating.min' => 'Rating relevansi minimal 1 bintang.',
+                'relevance_rating.max' => 'Rating relevansi maksimal 5 bintang.',
+                'clarity_rating.required' => 'Rating kejelasan penyampaian wajib dipilih.',
+                'clarity_rating.integer' => 'Rating kejelasan harus berupa angka.',
+                'clarity_rating.min' => 'Rating kejelasan minimal 1 bintang.',
+                'clarity_rating.max' => 'Rating kejelasan maksimal 5 bintang.',
+                'understanding_rating.required' => 'Rating pemahaman jamaah wajib dipilih.',
+                'understanding_rating.integer' => 'Rating pemahaman harus berupa angka.',
+                'understanding_rating.min' => 'Rating pemahaman minimal 1 bintang.',
+                'understanding_rating.max' => 'Rating pemahaman maksimal 5 bintang.',
+                'timing_rating.required' => 'Rating kesesuaian waktu wajib dipilih.',
+                'timing_rating.integer' => 'Rating kesesuaian waktu harus berupa angka.',
+                'timing_rating.min' => 'Rating kesesuaian waktu minimal 1 bintang.',
+                'timing_rating.max' => 'Rating kesesuaian waktu maksimal 5 bintang.',
+                'interaction_rating.required' => 'Rating interaksi jamaah wajib dipilih.',
+                'interaction_rating.integer' => 'Rating interaksi harus berupa angka.',
+                'interaction_rating.min' => 'Rating interaksi minimal 1 bintang.',
+                'interaction_rating.max' => 'Rating interaksi maksimal 5 bintang.',
+                'suggestions.max' => 'Saran tidak boleh lebih dari 1000 karakter.',
             ],
         );
 
-        Feedback::create($validated);
+        // Map form input names to database column names
+        $data = [
+            'imapp_id_penceramah' => $validated['imapp_id_penceramah'],
+            'imapp_id_masjid' => $validated['imapp_id_masjid'],
+            'nama_penceramah' => $validated['preacher_name'],
+            'nama_masjid' => $validated['mosque_name'],
+            'relevansi_rating' => $validated['relevance_rating'],
+            'kejelasan_rating' => $validated['clarity_rating'],
+            'pemahaman_jamaah_rating' => $validated['understanding_rating'],
+            'kesesuaian_waktu_rating' => $validated['timing_rating'],
+            'interaksi_jamaah_rating' => $validated['interaction_rating'],
+            'saran' => $validated['suggestions'],
+        ];
+
+        Feedback::create($data);
 
         return redirect()->route('feedback.create')->with('success', 'Terima kasih atas feedback Anda! Masukan Anda sangat berharga bagi kami.');
     }
@@ -60,16 +99,30 @@ class FeedbackController extends Controller
     {
         $query = Feedback::query();
 
-        // Filter by rating if provided
-        if ($request->filled('rating')) {
-            $query->byRating($request->rating);
+        // Filter by ratings if provided
+        if ($request->filled('relevansi_rating')) {
+            $query->byRelevansiRating($request->relevansi_rating);
+        }
+        if ($request->filled('kejelasan_rating')) {
+            $query->byKejelasanRating($request->kejelasan_rating);
+        }
+        if ($request->filled('pemahaman_jamaah_rating')) {
+            $query->byPemahamanJamaahRating($request->pemahaman_jamaah_rating);
+        }
+        if ($request->filled('kesesuaian_waktu_rating')) {
+            $query->byKesesuaianWaktuRating($request->kesesuaian_waktu_rating);
+        }
+        if ($request->filled('interaksi_jamaah_rating')) {
+            $query->byInteraksiJamaahRating($request->interaksi_jamaah_rating);
         }
 
         // Search by name or comment
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")->orWhere('comment', 'like', "%{$search}%");
+                $q->where('nama_penceramah', 'like', "%{$search}%")
+                    ->orWhere('nama_masjid', 'like', "%{$search}%")
+                    ->orWhere('saran', 'like', "%{$search}%");
             });
         }
 
@@ -77,7 +130,7 @@ class FeedbackController extends Controller
         $sortBy = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
-        $allowedSorts = ['created_at', 'name', 'rating'];
+        $allowedSorts = ['created_at', 'nama_penceramah', 'nama_masjid', 'relevansi_rating', 'kejelasan_rating', 'pemahaman_jamaah_rating', 'kesesuaian_waktu_rating', 'interaksi_jamaah_rating'];
         if (in_array($sortBy, $allowedSorts)) {
             $query->orderBy($sortBy, $sortDirection);
         }
@@ -103,5 +156,27 @@ class FeedbackController extends Controller
         $feedback->delete();
 
         return redirect()->route('dashboard.feedbacks.index')->with('success', 'Feedback deleted successfully.');
+    }
+
+    public function autocompletePenceramah(Request $request)
+    {
+        $query = $request->input('q');
+        $penceramah = Penceramah::where('nama_penceramah', 'like', "%{$query}%")
+            ->select('id as imapp_id_penceramah', 'nama_penceramah as text')
+            ->limit(10)
+            ->get();
+
+        return response()->json(['results' => $penceramah]);
+    }
+
+    public function autocompleteMasjid(Request $request)
+    {
+        $query = $request->input('q');
+        $masjid = Masjid::where('nama_masjid', 'like', "%{$query}%")
+            ->select('id as imapp_id_masjid', 'nama_masjid as text')
+            ->limit(10)
+            ->get();
+
+        return response()->json(['results' => $masjid]);
     }
 }

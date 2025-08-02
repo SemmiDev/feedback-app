@@ -15,11 +15,15 @@
                         <img src="/logo-unri.png" alt="UNRI Logo" class="object-contain w-10 h-10 drop-shadow-md">
                     </div>
                 </div>
-                <h2 class="text-3xl font-extrabold text-gray-900">
-                    Admin Login
+                <h2 class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-emerald-700 drop-shadow-sm tracking-tight">
+                    <span class="block">Sistem Evaluasi Cerdas</span>
+                    <span class="block text-emerald-900 text-opacity-80 font-bold text-lg md:text-2xl mt-1">Untuk Optimalisasi Dakwah</span>
                 </h2>
-                <p class="mt-2 text-sm text-gray-600">
-                    Masuk ke dashboard evaluasi feedback
+                <p class="mt-4 text-base text-gray-500 italic flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0-1.657-1.343-3-3-3s-3 1.343-3 3 1.343 3 3 3 3-1.343 3-3zm0 0c0-1.657 1.343-3 3-3s3 1.343 3 3-1.343 3-3 3-3-1.343-3-3zm0 8v-4"></path>
+                    </svg>
+                    Masuk ke <span class="font-semibold text-emerald-700">Admin Dashboard</span>
                 </p>
             </div>
         </div>

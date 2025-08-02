@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->tinyInteger('rating');
-            $table->text('comment')->nullable();
+            $table->string('nama_penceramah')->nullable();
+            $table->string('nama_masjid')->nullable();
+            $table->integer('imapp_id_penceramah')->nullable(); // referensi ke database imapp tabel penceramah
+            $table->integer('imapp_id_masjid')->nullable(); // referensi ke database imapp tabel masjid
+            $table->tinyInteger('relevansi_rating')->unsigned()->nullable();
+            $table->tinyInteger('kejelasan_rating')->unsigned()->nullable();
+            $table->tinyInteger('pemahaman_jamaah_rating')->unsigned()->nullable();
+            $table->tinyInteger('kesesuaian_waktu_rating')->unsigned()->nullable();
+            $table->tinyInteger('interaksi_jamaah_rating')->unsigned()->nullable();
+            $table->text('saran')->nullable();
             $table->timestamps();
         });
     }

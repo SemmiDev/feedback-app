@@ -209,25 +209,6 @@
                     </ul>
                 </div>
 
-                <!-- Quick Stats -->
-                <div class="mt-6 p-4 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg">
-                    <h3 class="text-sm font-medium text-emerald-800 mb-2">Quick Stats</h3>
-                    <div class="space-y-2">
-                        @php
-                            $recentCount = \App\Models\Feedback::where('created_at', '>=', now()->subDays(7))->count();
-                            $avgRating = \App\Models\Feedback::avg('rating');
-                        @endphp
-                        <div class="flex justify-between text-xs">
-                            <span class="text-gray-600">This Week</span>
-                            <span class="font-medium text-emerald-700">{{ $recentCount }}</span>
-                        </div>
-                        <div class="flex justify-between text-xs">
-                            <span class="text-gray-600">Avg Rating</span>
-                            <span class="font-medium text-emerald-700">{{ $avgRating ? number_format($avgRating, 1) : '0' }}/5</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Quick Actions -->
                 <div class="mt-4">
                     <a href="{{ route('feedback.create') }}" class="flex items-center w-full p-3 text-sm font-medium text-emerald-700 bg-emerald-100 rounded-lg hover:bg-emerald-200 transition-colors">

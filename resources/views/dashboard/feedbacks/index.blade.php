@@ -18,31 +18,91 @@
 <!-- Filters -->
 <div class="bg-white shadow rounded-lg mb-6">
     <div class="px-4 py-5 sm:p-6">
-        <form method="GET" action="{{ route('dashboard.feedbacks.index') }}" class="space-y-4 sm:space-y-0 sm:flex sm:items-end sm:space-x-4">
+        <form method="GET" action="{{ route('dashboard.feedbacks.index') }}" class="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <!-- Search -->
-            <div class="flex-1">
+            <div class="col-span-1">
                 <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
                 <input
                     type="text"
                     name="search"
                     id="search"
                     value="{{ request('search') }}"
-                    placeholder="Search by name or comment..."
+                    placeholder="Search by preacher or mosque name, or comment..."
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
             </div>
 
-            <!-- Rating Filter -->
+            <!-- Rating Filters -->
             <div>
-                <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+                <label for="relevansi_rating" class="block text-sm font-medium text-gray-700">Relevansi Rating</label>
                 <select
-                    name="rating"
-                    id="rating"
+                    name="relevansi_rating"
+                    id="relevansi_rating"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
                     <option value="">All Ratings</option>
                     @for($i = 1; $i <= 5; $i++)
-                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>
+                        <option value="{{ $i }}" {{ request('relevansi_rating') == $i ? 'selected' : '' }}>
+                            {{ $i }} Star{{ $i > 1 ? 's' : '' }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            <div>
+                <label for="kejelasan_rating" class="block text-sm font-medium text-gray-700">Kejelasan Rating</label>
+                <select
+                    name="kejelasan_rating"
+                    id="kejelasan_rating"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+                >
+                    <option value="">All Ratings</option>
+                    @for($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" {{ request('kejelasan_rating') == $i ? 'selected' : '' }}>
+                            {{ $i }} Star{{ $i > 1 ? 's' : '' }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            <div>
+                <label for="pemahaman_jamaah_rating" class="block text-sm font-medium text-gray-700">Pemahaman Rating</label>
+                <select
+                    name="pemahaman_jamaah_rating"
+                    id="pemahaman_jamaah_rating"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+                >
+                    <option value="">All Ratings</option>
+                    @for($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" {{ request('pemahaman_jamaah_rating') == $i ? 'selected' : '' }}>
+                            {{ $i }} Star{{ $i > 1 ? 's' : '' }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            <div>
+                <label for="kesesuaian_waktu_rating" class="block text-sm font-medium text-gray-700">Waktu Rating</label>
+                <select
+                    name="kesesuaian_waktu_rating"
+                    id="kesesuaian_waktu_rating"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+                >
+                    <option value="">All Ratings</option>
+                    @for($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" {{ request('kesesuaian_waktu_rating') == $i ? 'selected' : '' }}>
+                            {{ $i }} Star{{ $i > 1 ? 's' : '' }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            <div>
+                <label for="interaksi_jamaah_rating" class="block text-sm font-medium text-gray-700">Interaksi Rating</label>
+                <select
+                    name="interaksi_jamaah_rating"
+                    id="interaksi_jamaah_rating"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+                >
+                    <option value="">All Ratings</option>
+                    @for($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" {{ request('interaksi_jamaah_rating') == $i ? 'selected' : '' }}>
                             {{ $i }} Star{{ $i > 1 ? 's' : '' }}
                         </option>
                     @endfor
@@ -58,8 +118,13 @@
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
                     <option value="created_at" {{ request('sort') == 'created_at' ? 'selected' : '' }}>Date</option>
-                    <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
-                    <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Rating</option>
+                    <option value="nama_penceramah" {{ request('sort') == 'nama_penceramah' ? 'selected' : '' }}>Preacher Name</option>
+                    <option value="nama_masjid" {{ request('sort') == 'nama_masjid' ? 'selected' : '' }}>Mosque Name</option>
+                    <option value="relevansi_rating" {{ request('sort') == 'relevansi_rating' ? 'selected' : '' }}>Relevansi Rating</option>
+                    <option value="kejelasan_rating" {{ request('sort') == 'kejelasan_rating' ? 'selected' : '' }}>Kejelasan Rating</option>
+                    <option value="pemahaman_jamaah_rating" {{ request('sort') == 'pemahaman_jamaah_rating' ? 'selected' : '' }}>Pemahaman Rating</option>
+                    <option value="kesesuaian_waktu_rating" {{ request('sort') == 'kesesuaian_waktu_rating' ? 'selected' : '' }}>Waktu Rating</option>
+                    <option value="interaksi_jamaah_rating" {{ request('sort') == 'interaksi_jamaah_rating' ? 'selected' : '' }}>Interaksi Rating</option>
                 </select>
             </div>
 
@@ -77,17 +142,17 @@
             </div>
 
             <!-- Buttons -->
-            <div class="flex space-x-2">
+            <div class="flex flex-col sm:flex-row gap-2 sm:space-x-2 sm:col-span-2 lg:col-span-1 w-full">
                 <button
                     type="submit"
-                    {{-- class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500" --}}
-                    class="w-full inline-flex bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-300 focus:ring-opacity-50 border-0"
-                    style="background-color: #10b981 !important; color: white !important;">
+                    class="w-full sm:w-auto  justify-center bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-2 px-4 sm:py-3 sm:px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-300 focus:ring-opacity-50 border-0 text-sm sm:text-base"
+                    style="background-color: #10b981 !important; color: white !important;"
+                >
                     Filter
                 </button>
                 <a
                     href="{{ route('dashboard.feedbacks.index') }}"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 sm:py-3 sm:px-6 border border-gray-300 text-sm sm:text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                     Clear
                 </a>
@@ -102,53 +167,61 @@
         <ul class="divide-y divide-gray-200">
             @foreach($feedbacks as $feedback)
                 <li>
-                    <div class="px-4 py-4 flex items-center justify-between hover:bg-gray-50">
-                        <div class="flex items-center space-x-4 flex-1">
-                            <!-- Avatar -->
-                            <div class="flex-shrink-0">
-                                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                                    <span class="text-sm font-medium text-gray-700">{{ substr($feedback->name, 0, 1) }}</span>
-                                </div>
+                    <div class="px-4 py-4 sm:flex sm:items-start sm:space-x-4 hover:bg-gray-50">
+                        <!-- Avatar -->
+                        <div class="flex-shrink-0 sm:mt-1">
+                            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                                <span class="text-sm font-medium text-gray-700">{{ substr($feedback->nama_penceramah ?? 'Anonim', 0, 1) }}</span>
                             </div>
+                        </div>
 
-                            <!-- Content -->
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center justify-between">
+                        <!-- Content -->
+                        <div class="flex-1 min-w-0 mt-3 sm:mt-0">
+                            <div class="sm:flex sm:items-center sm:justify-between">
+                                <div class="w-full sm:w-auto">
                                     <p class="text-sm font-medium text-gray-900 truncate">
-                                        {{ $feedback->name }}
+                                        {{ $feedback->nama_penceramah ?? 'Anonim' }}
                                     </p>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="{{ $feedback->rating_color }} text-sm">{{ $feedback->stars }}</span>
-                                        <div class="text-right">
-                                            <div class="text-xs text-gray-500">
-                                                {{ $feedback->formatted_date }}
-                                            </div>
-                                            <div class="text-xs text-gray-400">
-                                                {{ $feedback->formatted_time }}
-                                            </div>
-                                        </div>
+                                    <p class="text-sm text-gray-600 truncate">
+                                        {{ $feedback->nama_masjid ?? 'Tidak disebutkan' }}
+                                    </p>
+                                    <div class="mt-1 flex flex-wrap gap-2 sm:gap-3">
+                                        <span class="text-xs {{ $feedback->average_rating_color }}">Avg: {{ $feedback->average_stars }}</span>
+                                        <span class="text-xs {{ $feedback->relevansi_rating_color }}">Relevansi: {{ $feedback->relevansi_stars }}</span>
+                                        <span class="text-xs {{ $feedback->kejelasan_rating_color }}">Kejelasan: {{ $feedback->kejelasan_stars }}</span>
+                                        <span class="text-xs {{ $feedback->pemahaman_jamaah_rating_color }}">Pemahaman: {{ $feedback->pemahaman_jamaah_stars }}</span>
+                                        <span class="text-xs {{ $feedback->kesesuaian_waktu_rating_color }}">Waktu: {{ $feedback->kesesuaian_waktu_stars }}</span>
+                                        <span class="text-xs {{ $feedback->interaksi_jamaah_rating_color }}">Interaksi: {{ $feedback->interaksi_jamaah_stars }}</span>
+                                    </div>
+                                    @if($feedback->saran)
+                                        <p class="mt-2 text-sm text-gray-600 sm:line-clamp-2">
+                                            {{ $feedback->saran }}
+                                        </p>
+                                    @else
+                                        <p class="mt-2 text-sm text-gray-400 italic">
+                                            No comment provided
+                                        </p>
+                                    @endif
+                                    <p class="mt-1 text-xs text-gray-400">
+                                        Submitted {{ $feedback->created_at_for_humans }}
+                                    </p>
+                                </div>
+                                <div class="mt-2 sm:mt-0 sm:text-right">
+                                    <div class="text-xs text-gray-500">
+                                        {{ $feedback->formatted_date }}
+                                    </div>
+                                    <div class="text-xs text-gray-400">
+                                        {{ $feedback->formatted_time }}
                                     </div>
                                 </div>
-                                @if($feedback->comment)
-                                    <p class="mt-1 text-sm text-gray-600 line-clamp-2">
-                                        {{ $feedback->comment }}
-                                    </p>
-                                @else
-                                    <p class="mt-1 text-sm text-gray-400 italic">
-                                        No comment provided
-                                    </p>
-                                @endif
-                                <p class="mt-1 text-xs text-gray-400">
-                                    Submitted {{ $feedback->created_at_for_humans }}
-                                </p>
                             </div>
                         </div>
 
                         <!-- Actions -->
-                        <div class="flex items-center space-x-2 ml-4">
+                        <div class="mt-3 sm:mt-0 sm:ml-4 flex items-center space-x-2 sm:flex-col sm:space-y-2 sm:space-x-0">
                             <a
                                 href="{{ route('dashboard.feedbacks.show', $feedback) }}"
-                                class="text-emerald-600 hover:text-emerald-500 text-sm font-medium px-3 py-1 rounded transition-colors"
+                                class="text-emerald-600 hover:text-emerald-500 text-sm font-medium ml-2 px-3 py-1 rounded transition-colors w-full text-center"
                                 style="background-color: #d1fae5;"
                             >
                                 View
@@ -156,14 +229,14 @@
                             <form
                                 method="POST"
                                 action="{{ route('dashboard.feedbacks.destroy', $feedback) }}"
-                                class="inline"
+                                class="inline w-full"
                                 onsubmit="return confirm('Are you sure you want to delete this feedback?')"
                             >
                                 @csrf
                                 @method('DELETE')
                                 <button
                                     type="submit"
-                                    class="text-red-600 hover:text-white text-sm font-medium px-3 py-1 rounded transition-colors"
+                                    class="text-red-600 hover:text-white text-sm font-medium px-3 py-1 rounded transition-colors w-full text-center"
                                     style="background-color: #fee2e2;"
                                 >
                                     Delete
@@ -186,7 +259,7 @@
             </svg>
             <h3 class="mt-2 text-sm font-medium text-gray-900">No feedbacks found</h3>
             <p class="mt-1 text-sm text-gray-500">
-                @if(request()->hasAny(['search', 'rating']))
+                @if(request()->hasAny(['search', 'relevansi_rating', 'kejelasan_rating', 'pemahaman_jamaah_rating', 'kesesuaian_waktu_rating', 'interaksi_jamaah_rating']))
                     Try adjusting your filters or search terms.
                 @else
                     Get started by sharing your feedback form with users.
