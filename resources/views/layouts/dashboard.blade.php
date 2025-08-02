@@ -181,11 +181,19 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('dashboard.feedbacks.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('dashboard.feedbacks.*') ? 'text-emerald-800 border border-r-4 border-emerald-200' : '' }}">
+                            <a href="{{ route('dashboard.feedbacks.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('dashboard.feedbacks.index') ? 'text-emerald-800 border border-r-4 border-emerald-200' : '' }}">
                                 <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('dashboard.feedbacks.*') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                                 </svg>
                                 Manage Feedbacks
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('dashboard.feedbacks.export') }}" class="flex items-center px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('dashboard.feedbacks.export') ? 'text-emerald-800 border border-r-4 border-emerald-200' : '' }}">
+                                <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('dashboard.feedbacks.export') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Export Feedbacks
                             </a>
                         </li>
                         {{-- <li>

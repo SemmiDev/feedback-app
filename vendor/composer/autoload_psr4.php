@@ -62,6 +62,7 @@ return array(
     'League\\MimeTypeDetection\\' => array($vendorDir . '/league/mime-type-detection/src'),
     'League\\Flysystem\\Local\\' => array($vendorDir . '/league/flysystem-local'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
+    'League\\Csv\\' => array($vendorDir . '/league/csv/src'),
     'League\\Config\\' => array($vendorDir . '/league/config/src'),
     'League\\CommonMark\\' => array($vendorDir . '/league/commonmark/src'),
     'Laravel\\Tinker\\' => array($vendorDir . '/laravel/tinker/src'),

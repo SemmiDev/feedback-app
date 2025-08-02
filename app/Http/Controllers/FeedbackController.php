@@ -8,6 +8,8 @@ use App\Models\Penceramah;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use League\Csv\Writer;
+use Illuminate\Support\Facades\Response;
 
 class FeedbackController extends Controller
 {
@@ -178,5 +180,78 @@ class FeedbackController extends Controller
             ->get();
 
         return response()->json(['results' => $masjid]);
+    }
+
+
+    public function export()
+    {
+        $columns = [
+            // 'imapp_id_penceramah' => 'ID Penceramah',
+            // 'imapp_id_masjid' => 'ID Masjid',
+            'nama_penceramah' => 'Nama Penceramah',
+            'nama_masjid' => 'Nama Masjid',
+            'relevansi_rating' => 'Relevansi Rating',
+            'kejelasan_rating' => 'Kejelasan Rating',
+            'pemahaman_jamaah_rating' => 'Pemahaman Jamaah Rating',
+            'kesesuaian_waktu_rating' => 'Kesesuaian Waktu Rating',
+            'interaksi_jamaah_rating' => 'Interaksi Jamaah Rating',
+            'saran' => 'Saran',
+            'created_at' => 'Tanggal Dibuat',
+            'updated_at' => 'Tanggal Diperbarui',
+        ];
+
+        return view('dashboard.feedbacks.export', compact('columns'));
+    }
+
+    public function exportCsv(Request $request)
+    {
+        $validated = $request->validate([
+            'start_date' => 'nullable|date|before_or_equal:end_date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'columns' => 'required|array|min:1',
+            'columns.*' => 'in:nama_penceramah,imapp_id_penceramah,nama_masjid,imapp_id_masjid,relevansi_rating,kejelasan_rating,pemahaman_jamaah_rating,kesesuaian_waktu_rating,interaksi_jamaah_rating,saran,created_at,updated_at',
+        ]);
+
+        $query = Feedback::query();
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $columns = $request->columns;
+        $feedbacks = $query->select($columns)->get();
+
+        $csv = Writer::createFromString();
+        $csv->insertOne($columns);
+
+        foreach ($feedbacks as $feedback) {
+            $row = [];
+            foreach ($columns as $column) {
+                $value = $feedback->$column;
+                if (in_array($column, ['created_at', 'updated_at']) && $value) {
+                    // Format as RFC3339 (ATOM in PHP)
+                    $value = $value->format(\DateTime::RFC3339);
+                }
+                $row[] = $value ?? '';
+            }
+            $csv->insertOne($row);
+        }
+
+        $filename = 'feedback_' . now()->format('Ymd_His') . '.csv';
+
+        return Response::streamDownload(
+            function () use ($csv) {
+                echo $csv->toString();
+            },
+            $filename,
+            [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => "attachment; filename=\"$filename\"",
+            ]
+        );
     }
 }

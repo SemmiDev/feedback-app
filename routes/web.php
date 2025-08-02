@@ -24,6 +24,8 @@ Route::get('/autocomplete/masjid', [FeedbackController::class, 'autocompleteMasj
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+    Route::get('/feedbacks/export', [FeedbackController::class, 'export'])->name('feedbacks.export');
+    Route::post('/feedbacks/export', [FeedbackController::class, 'exportCsv'])->name('feedbacks.export.csv');
     Route::get('/feedbacks/{feedback}', [FeedbackController::class, 'show'])->name('feedbacks.show');
     Route::delete('/feedbacks/{feedback}', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
 
