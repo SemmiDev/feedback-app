@@ -130,10 +130,10 @@
                             <span class="text-gray-600">Local Time (WIB):</span>
                             <span>{{ $feedback->formatted_created_at }}</span>
                         </div>
-                        <div class="flex justify-between">
+                        {{-- <div class="flex justify-between">
                             <span class="text-gray-600">UTC Time:</span>
                             <span>{{ $feedback->created_at->format('d M Y, H:i') }} UTC</span>
-                        </div>
+                        </div> --}}
                     </div>
                 </dd>
             </div>
