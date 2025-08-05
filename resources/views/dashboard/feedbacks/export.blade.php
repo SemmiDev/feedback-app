@@ -6,20 +6,20 @@
     <div class="mb-6">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Export Feedback</h1>
-                <p class="text-gray-600">Download feedback data as a CSV file with selected columns and date range</p>
+                <h1 class="text-2xl font-bold text-gray-900">Ekspor Umpan Balik</h1>
+                <p class="text-gray-600">Unduh data umpan balik sebagai file CSV dengan kolom dan rentang tanggal yang dipilih</p>
             </div>
             <a href="{{ route('dashboard.feedbacks.index') }}"
                 class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-emerald-600 hover:text-emerald-500 hover:bg-gray-50 transition-colors">
-                ← Back to Feedbacks
+                ← Kembali
             </a>
         </div>
     </div>
 
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">Export Feedback Data</h3>
-            <p class="mt-1 text-sm text-gray-600">Select the date range and columns to include in the CSV export.</p>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Ekspor Data Umpan Balik</h3>
+            <p class="mt-1 text-sm text-gray-600">Pilih rentang tanggal dan kolom yang ingin disertakan dalam ekspor CSV.</p>
         </div>
 
         <div class="border-t border-gray-200">
@@ -28,11 +28,11 @@
 
                 <!-- Date Range -->
                 <div class="bg-gray-50 px-4 py-5 sm:p-6 rounded-lg mb-6">
-                    <h4 class="text-sm font-medium text-gray-500 mb-4">Date Range</h4>
+                    <h4 class="text-sm font-medium text-gray-500 mb-4">Rentang Waktu</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">
-                                Start Date
+                                Tanggal Mulai
                             </label>
                             <input type="date" id="start_date" name="start_date"
                                 value="{{ old('start_date', now()->subDays(30)->format('Y-m-d')) }}"
@@ -43,7 +43,7 @@
                         </div>
                         <div>
                             <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">
-                                End Date
+                                Tanggal Sampai
                             </label>
                             <input type="date" id="end_date" name="end_date"
                                 value="{{ old('end_date', now()->format('Y-m-d')) }}"
@@ -58,11 +58,11 @@
                 <!-- Column Selection -->
                 <div class="bg-gray-50 px-4 py-5 sm:p-6 rounded-lg mb-6">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-sm font-medium text-gray-500">Select Columns</h4>
+                        <h4 class="text-sm font-medium text-gray-500">Pilih Kolom</h4>
                         <div class="flex items-center">
                             <input type="checkbox" id="select_all_columns"
                                 class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded">
-                            <label for="select_all_columns" class="ml-2 text-sm text-gray-600">Select All</label>
+                            <label for="select_all_columns" class="ml-2 text-sm text-gray-600">Pilih Semua</label>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -93,7 +93,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                             </svg>
-                            <span class="tracking-wide text-lg drop-shadow-sm">Download CSV</span>
+                            <span class="tracking-wide text-lg drop-shadow-sm">Unduh CSV</span>
                         </span>
                     </button>
                 </div>

@@ -1,18 +1,18 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Settings')
+@section('title', 'Pengaturan')
 
 @section('content')
 <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">Application Settings</h1>
-    <p class="text-gray-600">Manage application configurations and user preferences.</p>
+    <h1 class="text-2xl font-bold text-gray-900">Pengaturan Aplikasi</h1>
+    <p class="text-gray-600">Kelola konfigurasi aplikasi dan preferensi pengguna.</p>
 </div>
 
-<!-- Profile Settings -->
+<!-- Pengaturan Profil -->
 <div class="bg-white shadow rounded-lg mb-6">
     <div class="px-4 py-5 sm:p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Profile Settings</h2>
-        <p class="text-gray-600 mb-6">Update your account's profile information and password.</p>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Pengaturan Profil</h2>
+        <p class="text-gray-600 mb-6">Perbarui informasi profil dan kata sandi akun Anda.</p>
 
         @if(session('success_profile'))
             <div class="flex items-center p-4 mb-4 text-sm text-emerald-800 border border-emerald-300 rounded-lg bg-emerald-50 animate-slide-in" role="alert">
@@ -25,9 +25,9 @@
 
         <form action="{{ route('dashboard.settings.updateProfile') }}" method="POST" class="space-y-6">
             @csrf
-            <!-- Name -->
+            <!-- Nama -->
             <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
                 <input
                     type="text"
                     name="name"
@@ -41,9 +41,9 @@
                 @enderror
             </div>
 
-            <!-- Username -->
+            <!-- Nama Pengguna -->
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <label for="username" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
                 <input
                     type="text"
                     name="username"
@@ -59,11 +59,11 @@
 
             <hr class="my-6 border-gray-200">
 
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Change Password</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Ubah Kata Sandi</h3>
 
-            <!-- Current Password -->
+            <!-- Kata Sandi Saat Ini -->
             <div>
-                <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>
+                <label for="current_password" class="block text-sm font-medium text-gray-700">Kata Sandi Saat Ini</label>
                 <input
                     type="password"
                     name="current_password"
@@ -75,9 +75,9 @@
                 @enderror
             </div>
 
-            <!-- New Password -->
+            <!-- Kata Sandi Baru -->
             <div>
-                <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
+                <label for="new_password" class="block text-sm font-medium text-gray-700">Kata Sandi Baru</label>
                 <input
                     type="password"
                     name="new_password"
@@ -89,9 +89,9 @@
                 @enderror
             </div>
 
-            <!-- Confirm New Password -->
+            <!-- Konfirmasi Kata Sandi Baru -->
             <div>
-                <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi Baru</label>
                 <input
                     type="password"
                     name="new_password_confirmation"
@@ -105,18 +105,18 @@
                     type="submit"
                     class="bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-300 focus:ring-opacity-50 border-0"
                     style="background-color: #10b981 !important; color: white !important;">
-                    Save Profile
+                    Simpan Profil
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Application Settings -->
+<!-- Pengaturan Aplikasi -->
 <div class="bg-white shadow rounded-lg">
     <div class="px-4 py-5 sm:p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Application Settings</h2>
-        <p class="text-gray-600 mb-6">Configure general application settings.</p>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Pengaturan Aplikasi</h2>
+        <p class="text-gray-600 mb-6">Atur pengaturan umum aplikasi.</p>
 
         @if(session('success_application'))
             <div class="flex items-center p-4 mb-4 text-sm text-emerald-800 border border-emerald-300 rounded-lg bg-emerald-50 animate-slide-in" role="alert">
@@ -129,9 +129,9 @@
 
         <form action="{{ route('dashboard.settings.updateApplication') }}" method="POST" class="space-y-6">
             @csrf
-            <!-- App Name -->
+            <!-- Nama Aplikasi -->
             {{-- <div>
-                <label for="app_name" class="block text-sm font-medium text-gray-700">Application Name</label>
+                <label for="app_name" class="block text-sm font-medium text-gray-700">Nama Aplikasi</label>
                 <input
                     type="text"
                     name="app_name"
@@ -145,7 +145,7 @@
                 @enderror
             </div> --}}
 
-            <!-- Public Feedback Form Toggle -->
+            <!-- Toggle Formulir Umpan Balik Publik -->
             <div class="flex items-center">
                 <input
                     type="checkbox"
@@ -156,7 +156,7 @@
                     class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
                 >
                 <label for="public_feedback_enabled" class="ml-2 block text-sm text-gray-900">
-                    Enable Public Feedback Form
+                    Aktifkan Formulir Umpan Balik Publik
                 </label>
             </div>
 
@@ -165,7 +165,7 @@
                     type="submit"
                     class="bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-300 focus:ring-opacity-50 border-0"
                     style="background-color: #10b981 !important; color: white !important;">
-                    Save Settings
+                    Simpan Pengaturan
                 </button>
             </div>
         </form>

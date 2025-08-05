@@ -21,13 +21,13 @@
         <form method="GET" action="{{ route('dashboard.feedbacks.index') }}" class="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <!-- Search -->
             <div class="col-span-1">
-                <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
+                <label for="search" class="block text-sm font-medium text-gray-700">Pencarian</label>
                 <input
                     type="text"
                     name="search"
                     id="search"
                     value="{{ request('search') }}"
-                    placeholder="Search by preacher or mosque name, or comment..."
+                    placeholder="Cari berdasarkan nama penceramah, nama masjid, ..."
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
             </div>
@@ -40,7 +40,7 @@
                     id="relevansi_rating"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
-                    <option value="">All Ratings</option>
+                    <option value="">Semua Ratings</option>
                     @for($i = 1; $i <= 5; $i++)
                         <option value="{{ $i }}" {{ request('relevansi_rating') == $i ? 'selected' : '' }}>
                             {{ $i }} Star{{ $i > 1 ? 's' : '' }}
@@ -55,7 +55,7 @@
                     id="kejelasan_rating"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
-                    <option value="">All Ratings</option>
+                    <option value="">Semua Ratings</option>
                     @for($i = 1; $i <= 5; $i++)
                         <option value="{{ $i }}" {{ request('kejelasan_rating') == $i ? 'selected' : '' }}>
                             {{ $i }} Star{{ $i > 1 ? 's' : '' }}
@@ -70,7 +70,7 @@
                     id="pemahaman_jamaah_rating"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
-                    <option value="">All Ratings</option>
+                    <option value="">Semua Ratings</option>
                     @for($i = 1; $i <= 5; $i++)
                         <option value="{{ $i }}" {{ request('pemahaman_jamaah_rating') == $i ? 'selected' : '' }}>
                             {{ $i }} Star{{ $i > 1 ? 's' : '' }}
@@ -85,7 +85,7 @@
                     id="kesesuaian_waktu_rating"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
-                    <option value="">All Ratings</option>
+                    <option value="">Semua Ratings</option>
                     @for($i = 1; $i <= 5; $i++)
                         <option value="{{ $i }}" {{ request('kesesuaian_waktu_rating') == $i ? 'selected' : '' }}>
                             {{ $i }} Star{{ $i > 1 ? 's' : '' }}
@@ -111,15 +111,15 @@
 
             <!-- Sort -->
             <div>
-                <label for="sort" class="block text-sm font-medium text-gray-700">Sort By</label>
+                <label for="sort" class="block text-sm font-medium text-gray-700">Urutkan Berdasarkan</label>
                 <select
                     name="sort"
                     id="sort"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
-                    <option value="created_at" {{ request('sort') == 'created_at' ? 'selected' : '' }}>Date</option>
-                    <option value="nama_penceramah" {{ request('sort') == 'nama_penceramah' ? 'selected' : '' }}>Preacher Name</option>
-                    <option value="nama_masjid" {{ request('sort') == 'nama_masjid' ? 'selected' : '' }}>Mosque Name</option>
+                    <option value="created_at" {{ request('sort') == 'created_at' ? 'selected' : '' }}>Tanggal</option>
+                    <option value="nama_penceramah" {{ request('sort') == 'nama_penceramah' ? 'selected' : '' }}>Nama Penceramah</option>
+                    <option value="nama_masjid" {{ request('sort') == 'nama_masjid' ? 'selected' : '' }}>Nama Masjid</option>
                     <option value="relevansi_rating" {{ request('sort') == 'relevansi_rating' ? 'selected' : '' }}>Relevansi Rating</option>
                     <option value="kejelasan_rating" {{ request('sort') == 'kejelasan_rating' ? 'selected' : '' }}>Kejelasan Rating</option>
                     <option value="pemahaman_jamaah_rating" {{ request('sort') == 'pemahaman_jamaah_rating' ? 'selected' : '' }}>Pemahaman Rating</option>
@@ -136,8 +136,8 @@
                     id="direction"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                 >
-                    <option value="desc" {{ request('direction') == 'desc' ? 'selected' : '' }}>Descending</option>
-                    <option value="asc" {{ request('direction') == 'asc' ? 'selected' : '' }}>Ascending</option>
+                    <option value="desc" {{ request('direction') == 'desc' ? 'selected' : '' }}>Menurun</option>
+                    <option value="asc" {{ request('direction') == 'asc' ? 'selected' : '' }}>Menaik</option>
                 </select>
             </div>
 
@@ -154,7 +154,7 @@
                     href="{{ route('dashboard.feedbacks.index') }}"
                     class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 sm:py-3 sm:px-6 border border-gray-300 text-sm sm:text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                    Clear
+                    Reset
                 </a>
             </div>
         </form>
@@ -186,7 +186,7 @@
                                         {{ $feedback->nama_masjid ?? 'Tidak disebutkan' }}
                                     </p>
                                     <div class="mt-1 flex flex-wrap gap-2 sm:gap-3">
-                                        <span class="text-xs {{ $feedback->average_rating_color }}">Avg: {{ $feedback->average_stars }}</span>
+                                        <span class="text-xs {{ $feedback->average_rating_color }}">Rata Rata: {{ $feedback->average_stars }}</span>
                                         <span class="text-xs {{ $feedback->relevansi_rating_color }}">Relevansi: {{ $feedback->relevansi_stars }}</span>
                                         <span class="text-xs {{ $feedback->kejelasan_rating_color }}">Kejelasan: {{ $feedback->kejelasan_stars }}</span>
                                         <span class="text-xs {{ $feedback->pemahaman_jamaah_rating_color }}">Pemahaman: {{ $feedback->pemahaman_jamaah_stars }}</span>
@@ -199,11 +199,11 @@
                                         </p>
                                     @else
                                         <p class="mt-2 text-sm text-gray-400 italic">
-                                            No comment provided
+                                            Tidak ada saran yang diberikan.
                                         </p>
                                     @endif
                                     <p class="mt-1 text-xs text-gray-400">
-                                        Submitted {{ $feedback->created_at_for_humans }}
+                                        Dikirim {{ $feedback->created_at_for_humans }}
                                     </p>
                                 </div>
                                 <div class="mt-2 sm:mt-0 sm:text-right">
@@ -224,7 +224,7 @@
                                 class="text-emerald-600 hover:text-emerald-500 text-sm font-medium ml-2 px-3 py-1 rounded transition-colors w-full text-center"
                                 style="background-color: #d1fae5;"
                             >
-                                View
+                                Lihat
                             </a>
                             @if(auth()->user()->isAdmin())
                             <form
@@ -240,7 +240,7 @@
                                     class="text-red-600 hover:text-white text-sm font-medium px-3 py-1 rounded transition-colors w-full text-center"
                                     style="background-color: #fee2e2;"
                                 >
-                                    Delete
+                                    Hapus
                                 </button>
                             </form>
                             @endif
@@ -259,12 +259,12 @@
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
             </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No feedbacks found</h3>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Tidak ada umpan balik ditemukan</h3>
             <p class="mt-1 text-sm text-gray-500">
                 @if(request()->hasAny(['search', 'relevansi_rating', 'kejelasan_rating', 'pemahaman_jamaah_rating', 'kesesuaian_waktu_rating', 'interaksi_jamaah_rating']))
-                    Try adjusting your filters or search terms.
+                    Coba sesuaikan filter atau kata pencarian Anda.
                 @else
-                    Get started by sharing your feedback form with users.
+                    Mulai dengan membagikan formulir umpan balik Anda kepada pengguna.
                 @endif
             </p>
         </div>

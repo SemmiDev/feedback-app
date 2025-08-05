@@ -1,19 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Feedback Details')
+@section('title', 'Detail Umpan Balik')
 
 @section('content')
 <div class="mb-6">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Feedback Details</h1>
-            <p class="text-gray-600">View detailed feedback information</p>
+            <h1 class="text-2xl font-bold text-gray-900">Detail Umpan Balik</h1>
+            <p class="text-gray-600">Lihat detail informasi umpan balik</p>
         </div>
         <a
             href="{{ route('dashboard.feedbacks.index') }}"
             class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-emerald-600 hover:text-emerald-500 hover:bg-gray-50 transition-colors"
         >
-            ← Back to Feedbacks
+            ← Kembali
         </a>
     </div>
 </div>
@@ -32,7 +32,7 @@
                 <div class="flex items-center space-x-2 mt-1">
                     <span class="{{ $feedback->average_rating_color }} text-lg">{{ $feedback->average_stars }}</span>
                     <span class="text-sm text-gray-500">
-                        {{ number_format($feedback->average_rating, 1) }}/5 stars (Average)
+                        {{ number_format($feedback->average_rating, 1) }}/5 bintang (Rata-rata)
                     </span>
                 </div>
             </div>
@@ -43,7 +43,7 @@
         <dl>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">
-                    Submitted on
+                    Dibuat Pada
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {{ $feedback->display_datetime }}
@@ -55,7 +55,7 @@
 
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">
-                    Ratings
+                    Penilaian
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     <div class="space-y-2">
@@ -115,23 +115,23 @@
                         Saran/Kesan
                     </dt>
                     <dd class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2 italic">
-                        No comment provided
+                        Tidak ada komentar
                     </dd>
                 </div>
             @endif
 
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">
-                    Timezone Information
+                    Informasi Zona Waktu
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     <div class="space-y-1">
                         <div class="flex justify-between">
-                            <span class="text-gray-600">Local Time (WIB):</span>
+                            <span class="text-gray-600">Waktu Lokal (WIB):</span>
                             <span>{{ $feedback->formatted_created_at }}</span>
                         </div>
                         {{-- <div class="flex justify-between">
-                            <span class="text-gray-600">UTC Time:</span>
+                            <span class="text-gray-600">Waktu UTC:</span>
                             <span>{{ $feedback->created_at->format('d M Y, H:i') }} UTC</span>
                         </div> --}}
                     </div>
@@ -147,7 +147,7 @@
             <form
                 method="POST"
                 action="{{ route('dashboard.feedbacks.destroy', $feedback) }}"
-                onsubmit="return confirm('Are you sure you want to delete this feedback? This action cannot be undone.')"
+                onsubmit="return confirm('Apakah Anda yakin ingin menghapus umpan balik ini? Tindakan ini tidak dapat dibatalkan.')"
             >
                 @csrf
                 @method('DELETE')
@@ -158,7 +158,7 @@
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                     </svg>
-                    Delete Feedback
+                    Hapus Umpan Balik
                 </button>
             </form>
         </div>
