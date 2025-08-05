@@ -141,6 +141,7 @@
     </div>
 
     <!-- Actions -->
+    @if(auth()->user()->isAdmin())
     <div class="bg-gray-50 px-4 py-4 sm:px-6">
         <div class="flex justify-end space-x-3">
             <form
@@ -162,5 +163,6 @@
             </form>
         </div>
     </div>
+    @endif
 </div>
 @endsection

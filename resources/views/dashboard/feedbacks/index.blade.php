@@ -226,6 +226,7 @@
                             >
                                 View
                             </a>
+                            @if(auth()->user()->isAdmin())
                             <form
                                 method="POST"
                                 action="{{ route('dashboard.feedbacks.destroy', $feedback) }}"
@@ -242,6 +243,7 @@
                                     Delete
                                 </button>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </li>
