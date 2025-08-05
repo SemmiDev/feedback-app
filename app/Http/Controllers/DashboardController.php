@@ -14,19 +14,27 @@ class DashboardController extends Controller
         // Set timezone for all Carbon instances in this request
         Carbon::setToStringFormat('Y-m-d H:i:s');
 
+        $user = auth()->user();
+        $query = Feedback::query();
+
+        // If user is penceramah, filter by their ID
+        if ($user->isPenceramah()) {
+            $query->where('imapp_id_penceramah', $user->id_penceramah);
+        }
+
         // Get statistics
-        $totalFeedbacks = Feedback::count();
+        $totalFeedbacks = $query->count();
 
         // Calculate average ratings for each category
         $averageRatings = [
-            'relevansi' => Feedback::avg('relevansi_rating') ?? 0,
-            'kejelasan' => Feedback::avg('kejelasan_rating') ?? 0,
-            'pemahaman_jamaah' => Feedback::avg('pemahaman_jamaah_rating') ?? 0,
-            'kesesuaian_waktu' => Feedback::avg('kesesuaian_waktu_rating') ?? 0,
-            'interaksi_jamaah' => Feedback::avg('interaksi_jamaah_rating') ?? 0,
+            'relevansi' => $query->avg('relevansi_rating') ?? 0,
+            'kejelasan' => $query->avg('kejelasan_rating') ?? 0,
+            'pemahaman_jamaah' => $query->avg('pemahaman_jamaah_rating') ?? 0,
+            'kesesuaian_waktu' => $query->avg('kesesuaian_waktu_rating') ?? 0,
+            'interaksi_jamaah' => $query->avg('interaksi_jamaah_rating') ?? 0,
         ];
 
-        $recentFeedbacks = Feedback::recent(7)->count();
+        $recentFeedbacks = (clone $query)->recent(7)->count();
 
         // Get rating distribution for each rating type
         $ratingFields = [
@@ -39,7 +47,7 @@ class DashboardController extends Controller
 
         $ratingDistribution = [];
         foreach ($ratingFields as $field => $label) {
-            $distribution = Feedback::select($field, DB::raw('count(*) as count'))
+            $distribution = (clone $query)->select($field, DB::raw('count(*) as count'))
                 ->groupBy($field)
                 ->orderBy($field)
                 ->get()
@@ -60,10 +68,10 @@ class DashboardController extends Controller
         }
 
         // Get recent feedbacks for display
-        $latestFeedbacks = Feedback::latest()->take(5)->get();
+        $latestFeedbacks = (clone $query)->latest()->take(5)->get();
 
         // Monthly feedback trend (last 6 months) - convert to WIB for display
-        $monthlyTrend = Feedback::select(
+        $monthlyTrend = (clone $query)->select(
                 DB::raw('YEAR(CONVERT_TZ(created_at, "+00:00", "+07:00")) as year'),
                 DB::raw('MONTH(CONVERT_TZ(created_at, "+00:00", "+07:00")) as month'),
                 DB::raw('COUNT(*) as count')

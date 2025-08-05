@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'username', 'role', 'password'];
+    protected $fillable = ['name', 'username', 'role', 'id_penceramah', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,5 +42,25 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is penceramah
+     */
+    public function isPenceramah(): bool
+    {
+        return $this->role === 'penceramah';
+    }
+
+    /**
+     * Get the penceramah data from external database
+     */
+    public function penceramah()
+    {
+        if (!$this->isPenceramah() || !$this->id_penceramah) {
+            return null;
+        }
+        
+        return Penceramah::find($this->id_penceramah);
     }
 }

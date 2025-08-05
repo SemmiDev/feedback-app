@@ -95,11 +95,17 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Display all feedbacks for admin
+     * Display feedbacks (filtered by role)
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
         $query = Feedback::query();
+        
+        // If user is penceramah, filter by their ID
+        if ($user->isPenceramah()) {
+            $query->where('imapp_id_penceramah', $user->id_penceramah);
+        }
 
         // Filter by ratings if provided
         if ($request->filled('relevansi_rating')) {
