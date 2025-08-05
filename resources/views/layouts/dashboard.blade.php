@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') - Feedback App</title>
+    <title>@yield('title', 'Dasbor') - Feedback App</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -52,8 +52,8 @@
                                 </div>
                             </div>
                             <div class="hidden sm:block">
-                                <h1 class="text-lg font-semibold text-gray-900">Dashboard MUI Riau</h1>
-                                <p class="text-xs text-gray-500">Sistem Evaluasi Feedback</p>
+                <h1 class="text-lg font-semibold text-gray-900">Dasbor MUI Riau</h1>
+                <p class="text-xs text-gray-500">Sistem Evaluasi Umpan Balik</p>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                                 data-dropdown-toggle="user-dropdown"
                                 data-dropdown-placement="bottom"
                             >
-                                <span class="sr-only">Open user menu</span>
+                <span class="sr-only">Buka menu pengguna</span>
                                 <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                                     <span class="text-white text-sm font-medium">{{ substr(auth()->user()->name, 0, 1) }}</span>
                                 </div>
@@ -104,7 +104,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
                                             </svg>
-                                            Dashboard
+                            Dasbor
                                         </a>
                                     </li>
                                     <li>
@@ -117,7 +117,7 @@
                                                 <svg class="w-4 h-4 mr-3 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                                                 </svg>
-                                                Sign out
+                                                Keluar
                                             </button>
                                         </form>
                                     </li>
@@ -162,14 +162,14 @@
                 @if(auth()->user()->isAdmin())
                 <!-- Dashboard Menu Section -->
                 <div class="mt-6">
-                    <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Dashboard Menu</h3>
+                    <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Menu Dasbor</h3>
                     <ul class="space-y-1">
                         <li>
                             <a href="{{ route('dashboard.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('dashboard.index') ? 'text-emerald-800 border border-r-4 border-emerald-200' : '' }}">
                                 <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('dashboard.index') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
-                                Overview
+                                Ringkasan
                             </a>
                         </li>
                         <li>
@@ -177,7 +177,7 @@
                                 <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('dashboard.feedbacks.*') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                                 </svg>
-                                Manage Feedbacks
+                                Kelola Umpan Balik
                             </a>
                         </li>
                         <li>
@@ -185,21 +185,21 @@
                                 <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('dashboard.feedbacks.export') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                 </svg>
-                                Export Feedbacks
+                                Ekspor Umpan Balik
                             </a>
                         </li>
                     </ul>
                 @else
                 <!-- Penceramah Dashboard Menu -->
                 <div class="mt-6">
-                    <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Penceramah Menu</h3>
+                    <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Menu Penceramah</h3>
                     <ul class="space-y-1">
                         <li>
                             <a href="{{ route('dashboard.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('dashboard.index') ? 'text-emerald-800 border border-r-4 border-emerald-200' : '' }}">
                                 <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('dashboard.index') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
-                                Overview
+                                Ringkasan
                             </a>
                         </li>
                         <li>
@@ -207,7 +207,7 @@
                                 <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('dashboard.feedbacks.*') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                                 </svg>
-                                Your Feedbacks
+                                Umpan Balik Anda
                             </a>
                         </li>
                     </ul>
@@ -220,7 +220,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
-                                Settings
+                                Pengaturan
                             </a>
                         </li>
                         @else
@@ -229,7 +229,7 @@
                                 <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-gray-500 {{ request()->routeIs('profile.*') ? 'text-emerald-500' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
-                                Profile
+                                Profil
                             </a>
                         </li>
                         @endif
@@ -244,7 +244,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                             </svg>
-                            View Public Form
+                            Lihat Formulir Publik
                         </a>
                     </div>
                 @endif
@@ -261,7 +261,7 @@
                         </svg>
                         <div>{{ session('success') }}</div>
                         <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-emerald-50 text-emerald-500 rounded-lg focus:ring-2 focus:ring-emerald-400 p-1.5 hover:bg-emerald-200 inline-flex items-center justify-center h-8 w-8" data-dismiss-target="#alert-border-3" aria-label="Close">
-                            <span class="sr-only">Dismiss</span>
+                            <span class="sr-only">Tutup</span>
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                             </svg>
@@ -276,7 +276,7 @@
                         </svg>
                         <div>{{ session('error') }}</div>
                         <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8" data-dismiss-target="#alert-border-1" aria-label="Close">
-                            <span class="sr-only">Dismiss</span>
+                            <span class="sr-only">Tutup</span>
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                             </svg>

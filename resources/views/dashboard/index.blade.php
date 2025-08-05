@@ -1,17 +1,17 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Dashboard')
+@section('title', 'Dasbor')
 
 @section('content')
     <div class="mb-4">
-        <h1 class="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p class="text-gray-600">Welcome back! Here's what's happening with your feedback.</p>
+        <h1 class="text-2xl font-bold text-gray-900">Ringkasan Dasbor</h1>
+        <p class="text-gray-600">Selamat datang kembali! Berikut yang terjadi dengan umpan balik Anda.</p>
         <p class="text-sm text-gray-500 mt-1">
             <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            Last updated: {{ now()->setTimezone('Asia/Jakarta')->format('d M Y, H:i') }} WIB
+            Terakhir diperbarui: {{ now()->setTimezone('Asia/Jakarta')->format('d M Y, H:i') }} WIB
         </p>
     </div>
 
@@ -32,7 +32,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">Total Feedbacks</dt>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Total Umpan Balik</dt>
                             <dd class="text-lg font-medium text-gray-900">{{ number_format($totalFeedbacks) }}</dd>
                         </dl>
                     </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">This Week</dt>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Minggu Ini</dt>
                             <dd class="text-lg font-medium text-gray-900">{{ number_format($recentFeedbacks) }}</dd>
                         </dl>
                     </div>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">Satisfaction</dt>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Kepuasan</dt>
                             <dd class="text-lg font-medium text-gray-900">
                                 @php
                                     $totalRatings = 0;
@@ -99,7 +99,7 @@
     <!-- Average Ratings by Category -->
     <div class="bg-white overflow-hidden shadow rounded-lg mb-6">
         <div class="px-4 py-5 sm:p-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Average Ratings by Category</h3>
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Rata-rata Penilaian berdasarkan Kategori</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 @foreach ($averageRatings as $key => $rating)
                     <div class="bg-gray-50 p-4 rounded-lg text-center">
@@ -134,7 +134,7 @@
         <!-- Monthly Trend Chart -->
         <div class="bg-white overflow-hidden shadow rounded-lg">
             <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Monthly Feedback Trend</h3>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Tren Umpan Balik Bulanan</h3>
                 <div class="relative h-64">
                     <canvas id="trendChart"></canvas>
                 </div>
@@ -146,9 +146,9 @@
     <div class="bg-white overflow-hidden shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Feedbacks</h3>
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Umpan Balik Terbaru</h3>
                 <a href="{{ route('dashboard.feedbacks.index') }}" class="text-sm text-emerald-600 hover:text-emerald-500">
-                    View all →
+                    Lihat semua →
                 </a>
             </div>
 
@@ -180,7 +180,7 @@
                                     <a href="{{ route('dashboard.feedbacks.show', $feedback) }}"
                                         class="text-emerald-600 hover:text-emerald-500 text-sm font-medium px-3 py-1 rounded transition-colors"
                                         style="background-color: #d1fae5;">
-                                        View
+                                        Lihat
                                     </a>
                                 </div>
                             </div>
@@ -204,8 +204,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                     </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900">No feedbacks yet</h3>
-                    <p class="mt-1 text-sm text-gray-500">Get started by sharing your feedback form with users.</p>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">Belum ada umpan balik</h3>
+                    <p class="mt-1 text-sm text-gray-500">Mulai dengan membagikan formulir umpan balik kepada pengguna.</p>
                 </div>
             @endif
         </div>
@@ -288,7 +288,7 @@
                 data: {
                     labels: months,
                     datasets: [{
-                        label: 'Feedbacks',
+                        label: 'Umpan Balik',
                         data: counts,
                         borderColor: '#10B981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',

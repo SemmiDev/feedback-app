@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Admin Login')
+@section('title', 'Masuk Admin')
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -23,7 +23,7 @@
                     <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0-1.657-1.343-3-3-3s-3 1.343-3 3 1.343 3 3 3 3-1.343 3-3zm0 0c0-1.657 1.343-3 3-3s3 1.343 3 3-1.343 3-3 3-3-1.343-3-3zm0 8v-4"></path>
                     </svg>
-                    Masuk ke <span class="font-semibold text-emerald-700">Admin Dashboard</span>
+                    Masuk ke <span class="font-semibold text-emerald-700">Panel Admin</span>
                 </p>
             </div>
         </div>
@@ -35,7 +35,7 @@
                     <!-- Username Field -->
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">
-                            Username
+                            Username Pengguna
                         </label>
                         <input
                             id="username"
@@ -44,7 +44,7 @@
                             required
                             value="{{ old('username') }}"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 @error('username') border-red-500 @enderror"
-                            placeholder="Enter your username"
+                            placeholder="Masukkan username Anda"
                         >
                         @error('username')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -54,7 +54,7 @@
                     <!-- Password Field -->
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">
-                            Password
+                            Kata Sandi
                         </label>
                         <input
                             id="password"
@@ -62,7 +62,7 @@
                             type="password"
                             required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 @error('password') border-red-500 @enderror"
-                            placeholder="Enter your password"
+                            placeholder="Masukkan kata sandi Anda"
                         >
                         @error('password')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -78,7 +78,7 @@
                             class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
                         >
                         <label for="remember" class="ml-2 block text-sm text-gray-900">
-                            Remember me
+                            Ingat saya
                         </label>
                     </div>
 
@@ -88,7 +88,7 @@
                             type="submit"
                             class="w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-300 focus:ring-opacity-50 border-0"
                             style="background-color: #10b981 !important; color: white !important;">
-                            Sign In
+                            Masuk
                         </button>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
         <!-- Back to Feedback -->
         <div class="text-center">
             <a href="{{ route('feedback.create') }}" class="text-sm text-emerald-600 hover:text-emerald-500">
-                ← Back to Feedback Form
+                ← Kembali ke Formulir Feedback
             </a>
         </div>
     </div>
