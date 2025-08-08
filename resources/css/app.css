@@ -8,6 +8,9 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Custom styles for line clamping */
 .line-clamp-2 {
