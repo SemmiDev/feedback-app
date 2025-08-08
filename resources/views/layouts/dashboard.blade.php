@@ -13,6 +13,11 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+
+    <link rel="stylesheet" href="/build/assets/app-CmtpiSwD.css">
+	<script src="/build/assets/app-X2UW5owF.js" defer></script>
+
+
     <!-- Flowbite -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
 

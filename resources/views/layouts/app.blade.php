@@ -18,6 +18,9 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link rel="stylesheet" href="/build/assets/app-CmtpiSwD.css">
+	<script src="/build/assets/app-X2UW5owF.js" defer></script>
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Flowbite -->
