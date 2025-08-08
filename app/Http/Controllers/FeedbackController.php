@@ -37,15 +37,15 @@ class FeedbackController extends Controller
 
         $validated = $request->validate(
             [
-                'preacher_name' => 'nullable|string|max:255|required_without:imapp_id_penceramah',
+                'preacher_name' => 'nullable|string|max:255',
                 'mosque_name' => 'nullable|string|max:255|required_without:imapp_id_masjid',
-                'imapp_id_penceramah' => 'nullable|integer|required_without:preacher_name',
+                'imapp_id_penceramah' => 'nullable|integer',
                 'imapp_id_masjid' => 'nullable|integer|required_without:mosque_name',
                 'relevance_rating' => 'required|integer|min:1|max:5',
                 'clarity_rating' => 'required|integer|min:1|max:5',
                 'understanding_rating' => 'required|integer|min:1|max:5',
                 'timing_rating' => 'required|integer|min:1|max:5',
-                'interaction_rating' => 'required|integer|min:1|max:5',
+                'interaction_rating' => 'nullable|integer|min:0|max:5',
                 'suggestions' => 'required|string|max:1000',
             ],
             [
@@ -90,9 +90,12 @@ class FeedbackController extends Controller
             'kejelasan_rating' => $validated['clarity_rating'],
             'pemahaman_jamaah_rating' => $validated['understanding_rating'],
             'kesesuaian_waktu_rating' => $validated['timing_rating'],
-            'interaksi_jamaah_rating' => $validated['interaction_rating'],
             'saran' => $validated['suggestions'],
         ];
+
+        if (isset($validated['interaction_rating'])) {
+            $data['interaksi_jamaah_rating'] = $validated['interaction_rating'] ?? null;
+        }
 
         Feedback::create($data);
 
@@ -111,7 +114,7 @@ class FeedbackController extends Controller
         if ($user->isPenceramah()) {
             $query->where('imapp_id_penceramah', $user->id_penceramah);
         }
-        
+
         // If user is pengurus_masjid, filter by their masjid ID
         if ($user->isPengurusMasjid()) {
             $query->where('imapp_id_masjid', $user->id_masjid);

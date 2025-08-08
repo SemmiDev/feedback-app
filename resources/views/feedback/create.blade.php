@@ -51,7 +51,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                             <label for="preacher_name" class="block text-sm font-medium text-gray-700 mb-2">
-                                Nama Penceramah <span class="text-red-500">*</span>
+                                Nama Penceramah <span class="text-green-500">(Jika Ada)</span>
                             </label>
                             <select
                                 id="preacher_name"
@@ -289,7 +289,7 @@
                             </h3>
                             <div id="accordion-body-5" class="hidden" aria-labelledby="accordion-heading-5">
                                 <div class="p-4 sm:p-6 pt-0">
-                                    <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah ada sesi tanya jawab, interaksi?</p>
+                                    <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah ada sesi tanya jawab, interaksi? (Kosongkan jika ini Khotbah Jumat)</p>
                                     <div class="flex flex-col items-center ml-11">
                                         <div class="flex items-center justify-center space-x-1 sm:space-x-2 py-2">
                                             @for ($i = 1; $i <= 5; $i++)
