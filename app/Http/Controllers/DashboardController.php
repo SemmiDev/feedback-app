@@ -20,6 +20,8 @@ class DashboardController extends Controller
         // If user is penceramah, filter by their ID
         if ($user->isPenceramah()) {
             $query->where('imapp_id_penceramah', $user->id_penceramah);
+        } else if($user->isPengurusMasjid()) {
+            $query->where('imapp_id_masjid', $user->id_masjid);
         }
 
         // Get statistics

@@ -111,6 +111,11 @@ class FeedbackController extends Controller
         if ($user->isPenceramah()) {
             $query->where('imapp_id_penceramah', $user->id_penceramah);
         }
+        
+        // If user is pengurus_masjid, filter by their masjid ID
+        if ($user->isPengurusMasjid()) {
+            $query->where('imapp_id_masjid', $user->id_masjid);
+        }
 
         // Filter by ratings if provided
         if ($request->filled('relevansi_rating')) {

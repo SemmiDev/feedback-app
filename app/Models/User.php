@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'username', 'role', 'id_penceramah', 'password'];
+    protected $fillable = ['name', 'username', 'role', 'id_penceramah', 'id_masjid', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -53,6 +53,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user is pengurus_masjid
+     */
+    public function isPengurusMasjid(): bool
+    {
+        return $this->role === 'pengurus_masjid';
+    }
+
+    /**
      * Get the penceramah data from external database
      */
     public function penceramah()
@@ -60,7 +68,19 @@ class User extends Authenticatable
         if (!$this->isPenceramah() || !$this->id_penceramah) {
             return null;
         }
-        
+
         return Penceramah::find($this->id_penceramah);
+    }
+
+    /**
+     * Get the masjid data from external database
+     */
+    public function masjid()
+    {
+        if (!$this->isPengurusMasjid() || !$this->id_masjid) {
+            return null;
+        }
+
+        return Masjid::find($this->id_masjid);
     }
 }

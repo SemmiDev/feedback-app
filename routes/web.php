@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\PengurusMasjidController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -13,7 +14,9 @@ Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.s
 
 // Auth routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/login-pengurus-masjid', [LoginController::class, 'showLoginPengurusMasjidForm'])->name('login.pengurus-masjid');
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login-pengurus-masjid', [LoginController::class, 'loginPengurusMasjid']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/autocomplete/penceramah', [FeedbackController::class, 'autocompletePenceramah'])->name('autocomplete.penceramah');
@@ -42,7 +45,7 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
 });
 
 // Profile routes for penceramah only
-Route::middleware(['auth', 'penceramah'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
