@@ -37,20 +37,24 @@ class FeedbackController extends Controller
 
         $validated = $request->validate(
             [
-                'preacher_name' => 'nullable|string|max:255',
-                'mosque_name' => 'nullable|string|max:255',
-                'imapp_id_penceramah' => 'nullable|integer',
-                'imapp_id_masjid' => 'nullable|integer',
+                'preacher_name' => 'nullable|string|max:255|required_without:imapp_id_penceramah',
+                'mosque_name' => 'nullable|string|max:255|required_without:imapp_id_masjid',
+                'imapp_id_penceramah' => 'nullable|integer|required_without:preacher_name',
+                'imapp_id_masjid' => 'nullable|integer|required_without:mosque_name',
                 'relevance_rating' => 'required|integer|min:1|max:5',
                 'clarity_rating' => 'required|integer|min:1|max:5',
                 'understanding_rating' => 'required|integer|min:1|max:5',
                 'timing_rating' => 'required|integer|min:1|max:5',
                 'interaction_rating' => 'required|integer|min:1|max:5',
-                'suggestions' => 'nullable|string|max:1000',
+                'suggestions' => 'required|string|max:1000',
             ],
             [
                 'preacher_name.max' => 'Nama penceramah tidak boleh lebih dari 255 karakter.',
+                'preacher_name.required_without' => 'Nama penceramah wajib diisi.',
                 'mosque_name.max' => 'Nama masjid tidak boleh lebih dari 255 karakter.',
+                'mosque_name.required_without' => 'Nama masjid wajib diisi.',
+                'imapp_id_penceramah.required_without' => 'ID penceramah wajib diisi.',
+                'imapp_id_masjid.required_without' => 'ID masjid wajib diisi.',
                 'relevance_rating.required' => 'Rating relevansi materi dakwah wajib dipilih.',
                 'relevance_rating.integer' => 'Rating relevansi harus berupa angka.',
                 'relevance_rating.min' => 'Rating relevansi minimal 1 bintang.',
@@ -71,6 +75,7 @@ class FeedbackController extends Controller
                 'interaction_rating.integer' => 'Rating interaksi harus berupa angka.',
                 'interaction_rating.min' => 'Rating interaksi minimal 1 bintang.',
                 'interaction_rating.max' => 'Rating interaksi maksimal 5 bintang.',
+                'suggestions.required' => 'Saran/Kesan wajib diisi.',
                 'suggestions.max' => 'Saran tidak boleh lebih dari 1000 karakter.',
             ],
         );
@@ -101,7 +106,7 @@ class FeedbackController extends Controller
     {
         $user = auth()->user();
         $query = Feedback::query();
-        
+
         // If user is penceramah, filter by their ID
         if ($user->isPenceramah()) {
             $query->where('imapp_id_penceramah', $user->id_penceramah);

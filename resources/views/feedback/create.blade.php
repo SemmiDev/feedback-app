@@ -51,7 +51,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                             <label for="preacher_name" class="block text-sm font-medium text-gray-700 mb-2">
-                                Nama Penceramah (Jika Ada)
+                                Nama Penceramah <span class="text-red-500">*</span>
                             </label>
                             <select
                                 id="preacher_name"
@@ -71,7 +71,7 @@
 
                         <div>
                             <label for="mosque_name" class="block text-sm font-medium text-gray-700 mb-2">
-                                Nama Masjid
+                                Nama Masjid <span class="text-red-500">*</span>
                             </label>
                             <select
                                 id="mosque_name"
@@ -321,7 +321,7 @@
                     <!-- Saran/Kesan -->
                     <div>
                         <label for="suggestions" class="block text-sm font-medium text-gray-700 mb-2">
-                            Saran/Kesan
+                            Saran/Kesan <span class="text-red-500">*</span>
                         </label>
                         <textarea id="suggestions" name="suggestions" rows="4"
                             class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors resize-none text-sm sm:text-base @error('suggestions') border-red-500 @enderror"
