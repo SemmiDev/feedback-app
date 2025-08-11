@@ -194,7 +194,7 @@ class FeedbackController extends Controller
     {
         $query = $request->input('q');
         $masjid = Masjid::where('nama_masjid', 'like', "%{$query}%")
-            ->select('id as imapp_id_masjid', 'nama_masjid as text')
+            ->select('id as imapp_id_masjid', 'nama_masjid as text', 'alamat_lengkap as alamat')
             ->limit(10)
             ->get();
 

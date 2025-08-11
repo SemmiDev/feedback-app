@@ -242,7 +242,7 @@
                                     </svg>
                                 </button>
                             </h3>
-                            <div id="accordion-body-4" class="hidden" aria-labelledby="accordion-heading-4">
+                            <div id="accordion-body-4" class="hidden" aria-labelledby="accordion-body-4">
                                 <div class="p-4 sm:p-6 pt-0">
                                     <p class="text-sm sm:text-base text-gray-600 mb-4 ml-11">Apakah waktu & durasi ceramah sudah sesuai?</p>
                                     <div class="flex flex-col items-center ml-11">
@@ -366,6 +366,13 @@
     @push('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link href="https://unpkg.com/@themesberg/flowbite@1.3.0/dist/flowbite.min.css" rel="stylesheet" />
+        <style>
+            .select2-results__option .mosque-address {
+                font-size: 0.65rem;
+                color: #6b7280;
+                margin-top: 2px;
+            }
+        </style>
     @endpush
 
     @push('scripts')
@@ -436,7 +443,8 @@
                                     return {
                                         id: item.text,
                                         text: item.text,
-                                        imapp_id: item.imapp_id_masjid
+                                        imapp_id: item.imapp_id_masjid,
+                                        alamat: item.alamat || '-'
                                     };
                                 })
                             };
@@ -446,10 +454,16 @@
                     minimumInputLength: 1,
                     templateResult: function(result) {
                         if (result.loading) return result.text;
-                        return $('<div>' + result.text + '</div>');
+                        var $container = $('<div></div>');
+                        $container.append($('<div></div>').text(result.text));
+                        $container.append($('<div class="mosque-address"></div>').text(result.alamat || '-'));
+                        return $container;
                     },
                     templateSelection: function(result) {
                         return result.text || result.id;
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup;
                     }
                 }).on('select2:select', function(e) {
                     var data = e.params.data;
