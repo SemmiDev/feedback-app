@@ -95,15 +95,14 @@
                     </div>
 
                     <div class="pt-4 text-center">
-                            <a href="{{ route('login') }}"
-                                class="inline-flex items-center gap-2 text-base font-semibold
-              text-emerald-600 hover:text-emerald-500 transition-colors duration-200">
-                                <span
-                                    class="underline decoration-emerald-400 decoration-2 underline-offset-4 hover:decoration-emerald-600">
-                                    Masuk sebagai Admin / Penceramah
-                                </span>
-                            </a>
-                        </div>
+                        <a href="{{ route('login') }}"
+                            class="inline-flex items-center gap-2 text-base font-semibold text-emerald-600 hover:text-emerald-500 transition-colors duration-200">
+                            <span
+                                class="underline decoration-emerald-400 decoration-2 underline-offset-4 hover:decoration-emerald-600">
+                                Masuk sebagai Admin / Penceramah
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </form>
@@ -119,6 +118,13 @@
 
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-results__option .mosque-address {
+            font-size: 0.65rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+    </style>
 @endpush
 
 @push('scripts')
@@ -146,7 +152,8 @@
                                 return {
                                     id: item.text,
                                     text: item.text,
-                                    imapp_id: item.imapp_id_masjid
+                                    imapp_id: item.imapp_id_masjid,
+                                    alamat: item.alamat || 'Alamat tidak tersedia'
                                 };
                             })
                         };
@@ -156,10 +163,16 @@
                 minimumInputLength: 1,
                 templateResult: function(result) {
                     if (result.loading) return result.text;
-                    return $('<div>' + result.text + '</div>');
+                    var $container = $('<div></div>');
+                    $container.append($('<div></div>').text(result.text));
+                    $container.append($('<div class="mosque-address"></div>').text(result.alamat || 'Alamat tidak tersedia'));
+                    return $container;
                 },
                 templateSelection: function(result) {
                     return result.text || result.id;
+                },
+                escapeMarkup: function(markup) {
+                    return markup;
                 }
             }).on('select2:select', function(e) {
                 var data = e.params.data;
