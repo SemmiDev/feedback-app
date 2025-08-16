@@ -30,18 +30,29 @@
 
         <!-- Form Container -->
         <div class="bg-white shadow-lg rounded-b-lg p-4 sm:p-6">
-            @if (session('success'))
-                <div class="mb-6 bg-emerald-50 border border-emerald-200 rounded-lg p-4">
-                    <div class="flex items-center">
-                        <svg class="w-5 h-5 text-emerald-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <p class="text-emerald-800 font-medium">{{ session('success') }}</p>
-                    </div>
+        @if (session('success'))
+            <div class="mb-6 bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 text-emerald-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-emerald-800 font-medium">{{ session('success') }}</p>
                 </div>
-            @endif
+            </div>
+        @elseif (session('error'))
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 text-red-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-7-4a1 1 0 112 0v4a1 1 0 11-2 0V6zm0 6a1 1 0 100 2 1 1 0 000-2z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-red-800 font-medium">{{ session('error') }}</p>
+                </div>
+            </div>
+        @endif
 
             @if ($publicFeedbackEnabled)
                 <form action="{{ route('feedback.store') }}" method="POST" class="space-y-6" id="feedback-form">
