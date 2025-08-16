@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class FormRateLimitMiddleware
 {
@@ -25,12 +24,7 @@ class FormRateLimitMiddleware
             }
         }
 
-        // Lanjutkan ke request berikutnya
-        $response = $next($request);
-
-        // Simpan waktu pengiriman setelah berhasil
-        Cache::put($cacheKey, now(), $lockoutTime);
-
-        return $response;
+        // Lanjutkan ke request berikutnya tanpa menyimpan cache
+        return $next($request);
     }
 }

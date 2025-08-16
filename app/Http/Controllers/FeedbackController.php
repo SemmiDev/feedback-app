@@ -7,6 +7,7 @@ use App\Models\Masjid;
 use App\Models\Penceramah;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
@@ -109,6 +110,13 @@ class FeedbackController extends Controller
         }
 
         Feedback::create($data);
+
+
+        // Simpan ke cache untuk rate limiting hanya jika feedback berhasil disimpan
+        $ip = $request->header('X-Forwarded-For') ?: $request->ip();
+        $cacheKey = 'form_submission_' . $ip;
+        $lockoutTime = 5 * 60 * 60; // 5 jam dalam detik
+        Cache::put($cacheKey, now(), $lockoutTime);
 
         return redirect()->route('feedback.create')->with('success', 'Terima kasih atas feedback Anda! Masukan Anda sangat berharga bagi kami.');
     }
