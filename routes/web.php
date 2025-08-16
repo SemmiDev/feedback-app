@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 // Public routes
 Route::get('/', [FeedbackController::class, 'create'])->name('feedback.create');
 Route::middleware(['form.rate.limit'])->post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+// Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
 // Auth routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

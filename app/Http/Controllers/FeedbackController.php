@@ -7,9 +7,11 @@ use App\Models\Masjid;
 use App\Models\Penceramah;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class FeedbackController extends Controller
 {
@@ -80,6 +82,15 @@ class FeedbackController extends Controller
             ],
         );
 
+        // Cek kata-kata kasar menggunakan Gemini AI
+        $suggestions = $validated['suggestions'];
+        $isInappropriate = $this->checkInappropriateContent($suggestions);
+        Log::info(["isInappropriate" => $isInappropriate]);
+
+        if ($isInappropriate === true) {
+            return redirect()->route('feedback.create')->with('error', 'Feedback Anda mengandung kata-kata yang tidak pantas. Silakan periksa kembali.');
+        }
+
         // Map form input names to database column names
         $data = [
             'imapp_id_penceramah' => $validated['imapp_id_penceramah'],
@@ -101,6 +112,105 @@ class FeedbackController extends Controller
 
         return redirect()->route('feedback.create')->with('success', 'Terima kasih atas feedback Anda! Masukan Anda sangat berharga bagi kami.');
     }
+
+private function checkInappropriateContent($text)
+{
+    try {
+        $client = new Client(['timeout' => 30]); // Add timeout
+        $apiKey = env('GEMINI_API_KEY');
+
+        // Validate API key exists
+        if (empty($apiKey)) {
+            \Log::warning('GEMINI_API_KEY not found in environment variables');
+            return $this->fallbackBadWordsCheck($text);
+        }
+
+        // Correct Gemini 2.0 Flash API endpoint and authentication
+        $response = $client->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'X-goog-api-key' => $apiKey,
+            ],
+            'json' => [
+                'contents' => [
+                    [
+                        'parts' => [
+                            [
+                                'text' => "Analyze this Indonesian text for inappropriate content, profanity, or offensive language. Respond with only 'true' if inappropriate content is found, or 'false' if the content is appropriate: '{$text}'"
+                            ]
+                        ]
+                    ]
+                ],
+                'generationConfig' => [
+                    'temperature' => 0.1,
+                    'maxOutputTokens' => 10,
+                ]
+            ]
+        ]);
+
+        $result = json_decode($response->getBody(), true);
+
+        // Better error handling for API response
+        if (!isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+            \Log::warning('Unexpected Gemini API response structure', ['response' => $result]);
+            return $this->fallbackBadWordsCheck($text);
+        }
+
+        $responseText = trim(strtolower($result['candidates'][0]['content']['parts'][0]['text']));
+        $isInappropriate = $responseText === 'true';
+
+        \Log::info('Gemini API content check completed', [
+            'text_length' => strlen($text),
+            'is_inappropriate' => $isInappropriate,
+            'api_response' => $responseText
+        ]);
+
+        return $isInappropriate;
+
+    } catch (RequestException $e) {
+        $statusCode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : 'No response';
+
+        \Log::warning('Gemini API error. Falling back to local bad words check.', [
+            'error' => $e->getMessage(),
+            'status_code' => $statusCode,
+            'text_length' => strlen($text)
+        ]);
+
+        return $this->fallbackBadWordsCheck($text);
+    } catch (\Exception $e) {
+        \Log::error('Unexpected error in content moderation', [
+            'error' => $e->getMessage(),
+            'text_length' => strlen($text)
+        ]);
+
+        return $this->fallbackBadWordsCheck($text);
+    }
+}
+
+    private function fallbackBadWordsCheck($text)
+    {
+    // Enhanced Indonesian bad words list (add more as needed)
+    $badWords = [
+        'anjing', 'babi', 'bangsat', 'brengsek', 'kontol', 'memek', 'ngentot',
+        'tolol', 'goblok', 'idiot', 'bodoh', 'sialan', 'bajingan', 'kampret',
+        'tai', 'taik', 'puki', 'kimak', 'jancuk', 'cok', 'asu', 'monyet',
+        // Add more Indonesian profanity as needed
+    ];
+
+    $textLower = strtolower($text);
+
+    foreach ($badWords as $word) {
+        if (stripos($textLower, $word) !== false) {
+            \Log::info('Local bad words check found inappropriate content', [
+                'matched_word' => $word,
+                'text_length' => strlen($text)
+            ]);
+            return true;
+        }
+    }
+
+    return false;
+}
 
     /**
      * Display feedbacks (filtered by role)
