@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
-use Illuminate\Http\Request;
+use App\Models\SentimentAnalysis;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -20,7 +22,7 @@ class DashboardController extends Controller
         // If user is penceramah, filter by their ID
         if ($user->isPenceramah()) {
             $query->where('imapp_id_penceramah', $user->id_penceramah);
-        } else if($user->isPengurusMasjid()) {
+        } else if ($user->isPengurusMasjid()) {
             $query->where('imapp_id_masjid', $user->id_masjid);
         }
 
@@ -74,10 +76,10 @@ class DashboardController extends Controller
 
         // Monthly feedback trend (last 6 months) - convert to WIB for display
         $monthlyTrend = (clone $query)->select(
-                DB::raw('YEAR(CONVERT_TZ(created_at, "+00:00", "+07:00")) as year'),
-                DB::raw('MONTH(CONVERT_TZ(created_at, "+00:00", "+07:00")) as month'),
-                DB::raw('COUNT(*) as count')
-            )
+            DB::raw('YEAR(CONVERT_TZ(created_at, "+00:00", "+07:00")) as year'),
+            DB::raw('MONTH(CONVERT_TZ(created_at, "+00:00", "+07:00")) as month'),
+            DB::raw('COUNT(*) as count')
+        )
             ->where('created_at', '>=', now()->subMonths(6))
             ->groupBy('year', 'month')
             ->orderBy('year')
@@ -92,5 +94,158 @@ class DashboardController extends Controller
             'latestFeedbacks',
             'monthlyTrend'
         ));
+    }
+
+    public function sentimen(Request $request)
+    {
+        // Get sentiment statistics
+        $totalSentiments = SentimentAnalysis::count();
+
+        // Sentiment distribution
+        $sentimentDistribution = SentimentAnalysis::select('sentiment_label', DB::raw('count(*) as count'))
+            ->groupBy('sentiment_label')
+            ->get()
+            ->pluck('count', 'sentiment_label')
+            ->toArray();
+
+        // Average sentiment score
+        $averageSentimentScore = SentimentAnalysis::avg('sentiment_score') ?? 0;
+
+        // Get sentiment by score ranges
+        $scoreRanges = [
+            'negative' => SentimentAnalysis::where('sentiment_label', 'LIKE', '%negative%')->count(),
+            'neutral' => SentimentAnalysis::where('sentiment_label', 'LIKE', '%neutral%')->count(),
+            'positive' => SentimentAnalysis::where('sentiment_label', 'LIKE', '%positive%')->count(),
+        ];
+
+        // Monthly sentiment trend (last 6 months)
+        $monthlySentimentTrend = SentimentAnalysis::select(
+            DB::raw('YEAR(CONVERT_TZ(created_at, "+00:00", "+07:00")) as year'),
+            DB::raw('MONTH(CONVERT_TZ(created_at, "+00:00", "+07:00")) as month'),
+            'sentiment_label',
+            DB::raw('COUNT(*) as count')
+        )
+            ->where('created_at', '>=', now()->subMonths(6))
+            ->groupBy('year', 'month', 'sentiment_label')
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+
+        // Recent sentiments for display
+        // $latestSentiments = SentimentAnalysis::paginate(50);
+
+        // Top positive and negative sentiments
+        $topPositive = SentimentAnalysis::where('sentiment_label', 'LIKE', '%positif%')
+            ->orWhere('sentiment_label', 'LIKE', '%positive%')
+            ->orderBy('sentiment_score', 'desc')
+            ->take(25)
+            ->get();
+
+        $topNeutral = SentimentAnalysis::where('sentiment_label', 'LIKE', '%neutral%')
+            ->orWhere('sentiment_label', 'LIKE', '%neutral%')
+            ->orderBy('sentiment_score', 'asc')
+            ->take(25)
+            ->get();
+
+        $topNegative = SentimentAnalysis::where('sentiment_label', 'LIKE', '%negatif%')
+            ->orWhere('sentiment_label', 'LIKE', '%negative%')
+            ->orderBy('sentiment_score', 'asc')
+            ->take(25)
+            ->get();
+
+        return view('dashboard.sentiment', compact(
+            'totalSentiments',
+            'sentimentDistribution',
+            'averageSentimentScore',
+            'scoreRanges',
+            'monthlySentimentTrend',
+            // 'latestSentiments',
+            'topPositive',
+            'topNeutral',
+            'topNegative'
+        ));
+    }
+
+    public function uploadSentimen(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'csv_file' => 'required|file|mimes:csv,txt|max:10240', // Max 10MB
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('error', 'File yang diupload harus berformat CSV dan maksimal 10MB');
+        }
+
+        try {
+            $file = $request->file('csv_file');
+            $path = $file->getRealPath();
+
+            // Clear existing data
+            SentimentAnalysis::truncate();
+
+            // Read CSV file
+            if (($handle = fopen($path, 'r')) !== FALSE) {
+                $header = fgetcsv($handle, 1000, ',');
+
+                // Validate CSV structure
+                $expectedHeaders = ['saran', 'clean_text', 'sentiment_label', 'sentiment_score'];
+                $headerMap = [];
+
+                foreach ($expectedHeaders as $expectedHeader) {
+                    $index = array_search($expectedHeader, $header);
+                    if ($index === false) {
+                        fclose($handle);
+                        return redirect()->back()
+                            ->with('error', "Kolom '$expectedHeader' tidak ditemukan dalam file CSV");
+                    }
+                    $headerMap[$expectedHeader] = $index;
+                }
+
+                $insertData = [];
+                $rowCount = 0;
+
+                while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                    $rowCount++;
+
+                    // Skip empty rows
+                    if (empty(array_filter($data))) {
+                        continue;
+                    }
+
+                    $insertData[] = [
+                        'saran' => $data[$headerMap['saran']] ?? '',
+                        'clean_text' => $data[$headerMap['clean_text']] ?? '',
+                        'sentiment_label' => $data[$headerMap['sentiment_label']] ?? '',
+                        'sentiment_score' => (float) ($data[$headerMap['sentiment_score']] ?? 0),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+
+                    // Insert in batches of 100
+                    if (count($insertData) >= 100) {
+                        SentimentAnalysis::insert($insertData);
+                        $insertData = [];
+                    }
+                }
+
+                // Insert remaining data
+                if (!empty($insertData)) {
+                    SentimentAnalysis::insert($insertData);
+                }
+
+                fclose($handle);
+
+                return redirect()->route('dashboard.sentiment')
+                    ->with('success', "Berhasil mengupload dan memproses $rowCount data sentimen");
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Gagal membaca file CSV');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat memproses file: ' . $e->getMessage());
+        }
     }
 }

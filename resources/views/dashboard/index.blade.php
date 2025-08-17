@@ -120,17 +120,6 @@
 
     <!-- Charts Row -->
     <div class="grid grid-cols-1 lg:grid-cols-1 mb-6">
-    {{-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6"> --}}
-        <!-- Rating Distribution Chart -->
-        {{-- <div class="bg-white overflow-hidden shadow rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Rating Distribution by Category</h3>
-                <div class="relative h-64">
-                    <canvas id="ratingChart"></canvas>
-                </div>
-            </div>
-        </div> --}}
-
         <!-- Monthly Trend Chart -->
         <div class="bg-white overflow-hidden shadow rounded-lg">
             <div class="px-4 py-5 sm:p-6">
@@ -213,53 +202,6 @@
 
     @push('scripts')
         <script>
-            // Rating Distribution Chart
-            // const ratingCtx = document.getElementById('ratingChart').getContext('2d');
-            // const ratingDistribution = @json($ratingDistribution);
-            // const ratingChart = new Chart(ratingCtx, {
-            //     type: 'bar',
-            //     data: {
-            //         labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
-            //         datasets: Object.entries(ratingDistribution).map(([key, dist], index) => ({
-            //             label: dist.label,
-            //             data: Object.values(dist.data),
-            //             backgroundColor: [
-            //                 '#EF4444', // red-500
-            //                 '#F97316', // orange-500
-            //                 '#EAB308', // yellow-500
-            //                 '#22C55E', // green-500
-            //                 '#10B981' // emerald-500
-            //             ][index % 5],
-            //             borderWidth: 1,
-            //             borderColor: '#ffffff'
-            //         }))
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         maintainAspectRatio: false,
-            //         plugins: {
-            //             legend: {
-            //                 position: 'bottom',
-            //                 labels: {
-            //                     padding: 20,
-            //                     usePointStyle: true
-            //                 }
-            //             }
-            //         },
-            //         scales: {
-            //             x: {
-            //                 stacked: false,
-            //             },
-            //             y: {
-            //                 beginAtZero: true,
-            //                 ticks: {
-            //                     stepSize: 1
-            //                 }
-            //             }
-            //         }
-            //     }
-            // });
-
             // Monthly Trend Chart
             const trendCtx = document.getElementById('trendChart').getContext('2d');
             const monthlyData = @json($monthlyTrend);

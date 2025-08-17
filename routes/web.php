@@ -37,6 +37,9 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/settings/profile', [SettingController::class, 'updateProfile'])->name('settings.updateProfile');
         Route::post('/settings/application', [SettingController::class, 'updateApplicationSettings'])->name('settings.updateApplication');
+
+        Route::get('/dashboard/sentiment', [DashboardController::class, 'sentimen'])->name('sentiment');
+        Route::post('/dashboard/sentiment/upload', [DashboardController::class, 'uploadSentimen'])->name('sentiment.upload');
     });
 
     Route::get('/feedbacks/{feedback}', [FeedbackController::class, 'show'])->name('feedbacks.show');
