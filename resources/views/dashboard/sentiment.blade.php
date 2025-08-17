@@ -348,15 +348,6 @@
                             @endif
                         </div>
                     </div>
-                    <div class="ml-5 w-0 flex-1">
-                        <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">Status Sentimen</dt>
-                            <dd
-                                class="text-lg font-medium {{ $averageSentimentScore >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                {{ $averageSentimentScore >= 0.2 ? 'Sangat Positif' : ($averageSentimentScore >= 0 ? 'Positif' : ($averageSentimentScore >= -0.2 ? 'Netral' : 'Negatif')) }}
-                            </dd>
-                        </dl>
-                    </div>
                 </div>
             </div>
         </div>
