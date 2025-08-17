@@ -51,8 +51,8 @@
             $stats = [
                 ['label' => 'Total Topik', 'value' => number_format($totalTopics), 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-5v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2z"></path>', 'color' => 'bg-purple-500'],
                 ['label' => 'Total Dokumen', 'value' => number_format($totalDocuments), 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>', 'color' => 'bg-blue-500'],
-                ['label' => 'Rata-rata Sentimen', 'value' => number_format($averageTopicSentiment, 3), 'icon' => ($averageTopicSentiment >= 0.2 ? '😊' : ($averageTopicSentiment <= -0.2 ? '😞' : '😐')), 'color' => ($averageTopicSentiment >= 0.2 ? 'bg-green-500' : ($averageTopicSentiment <= -0.2 ? 'bg-red-500' : 'bg-yellow-500'))],
-                ['label' => 'Topik Terpopuler', 'value' => $mostDiscussedTopic ? 'Topic ' . $mostDiscussedTopic->topic_id : '-', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>', 'color' => 'bg-orange-500'],
+                // ['label' => 'Rata-rata Sentimen', 'value' => number_format($averageTopicSentiment, 3), 'icon' => ($averageTopicSentiment >= 0.2 ? '😊' : ($averageTopicSentiment <= -0.2 ? '😞' : '😐')), 'color' => ($averageTopicSentiment >= 0.2 ? 'bg-green-500' : ($averageTopicSentiment <= -0.2 ? 'bg-red-500' : 'bg-yellow-500'))],
+                // ['label' => 'Topik Terpopuler', 'value' => $mostDiscussedTopic ? 'Topic ' . $mostDiscussedTopic->topic_id : '-', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>', 'color' => 'bg-orange-500'],
             ];
         @endphp
 
