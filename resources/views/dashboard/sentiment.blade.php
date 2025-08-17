@@ -335,22 +335,6 @@
         </div>
 
         <!-- Sentiment Health -->
-        <div class="bg-white overflow-hidden shadow rounded-lg">
-            <div class="p-5">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div
-                            class="w-8 h-8 {{ $averageSentimentScore >= 0 ? 'bg-green-500' : 'bg-red-500' }} rounded-md flex items-center justify-center">
-                            @if ($averageSentimentScore >= 0)
-                                <span class="text-white">😊</span>
-                            @else
-                                <span class="text-white">😞</span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Sentiment Distribution and Score Range -->
