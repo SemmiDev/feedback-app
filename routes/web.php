@@ -40,6 +40,9 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
 
         Route::get('/dashboard/sentiment', [DashboardController::class, 'sentimen'])->name('sentiment');
         Route::post('/dashboard/sentiment/upload', [DashboardController::class, 'uploadSentimen'])->name('sentiment.upload');
+
+        Route::get('/dashboard/topics', [DashboardController::class, 'topics'])->name('topics');
+        Route::post('/dashboard/topics/upload', [DashboardController::class, 'uploadTopics'])->name('topics.upload');
     });
 
     Route::get('/feedbacks/{feedback}', [FeedbackController::class, 'show'])->name('feedbacks.show');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use App\Models\SentimentAnalysis;
+use App\Models\TopicModeling;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -243,6 +244,168 @@ class DashboardController extends Controller
                 return redirect()->back()
                     ->with('error', 'Gagal membaca file CSV');
             }
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat memproses file: ' . $e->getMessage());
+        }
+    }
+
+    public function topics(Request $request)
+    {
+        // Get topic statistics
+        $totalTopics = TopicModeling::count();
+        $totalDocuments = TopicModeling::sum('doc_count');
+
+        // Average sentiment across all topics
+        $averageTopicSentiment = TopicModeling::avg('avg_sentiment') ?? 0;
+
+        // Most discussed topic (highest document count)
+        $mostDiscussedTopic = TopicModeling::orderBy('doc_count', 'desc')->first();
+
+        // Topic distribution by sentiment
+        $topicSentimentDistribution = [
+            'positive' => TopicModeling::where('avg_sentiment', '>=', 0.2)->count(),
+            'negative' => TopicModeling::where('avg_sentiment', '<=', -0.2)->count(),
+            'neutral' => TopicModeling::whereBetween('avg_sentiment', [-0.2, 0.2])->count(),
+        ];
+
+        // Get all topics ordered by share (most popular first)
+        $topicsByShare = TopicModeling::orderBy('share', 'desc')->get();
+
+        // Get topics by sentiment (most positive first)
+        $topicsBySentiment = TopicModeling::orderBy('avg_sentiment', 'desc')->get();
+
+        // Topic share distribution for pie chart
+        $topicShareData = TopicModeling::select('topic_id', 'topic_keywords', 'share', 'doc_count')
+            ->orderBy('share', 'desc')
+            ->get();
+
+        // Sentiment rates aggregation
+        $sentimentRates = [
+            'positive' => TopicModeling::avg('pos_rate') * 100,
+            'negative' => TopicModeling::avg('neg_rate') * 100,
+            'neutral' => TopicModeling::avg('neu_rate') * 100,
+        ];
+
+        // Top keywords for word cloud (aggregate from all topics)
+        $allKeywords = [];
+        foreach ($topicsByShare as $topic) {
+            $keywords = explode(', ', $topic->topic_keywords);
+            foreach ($keywords as $keyword) {
+                $keyword = trim($keyword);
+                if (!isset($allKeywords[$keyword])) {
+                    $allKeywords[$keyword] = 0;
+                }
+                // Weight by topic share and document count
+                $allKeywords[$keyword] += ($topic->share * $topic->doc_count);
+            }
+        }
+
+        // Sort keywords by weight and get top 50
+        arsort($allKeywords);
+        $topKeywords = array_slice($allKeywords, 0, 50, true);
+
+        return view('dashboard.topic', compact(
+            'totalTopics',
+            'totalDocuments',
+            'averageTopicSentiment',
+            'mostDiscussedTopic',
+            'topicSentimentDistribution',
+            'topicsByShare',
+            'topicsBySentiment',
+            'topicShareData',
+            'sentimentRates',
+            'topKeywords'
+        ));
+    }
+
+    public function uploadTopics(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'csv_file' => 'required|file|mimes:csv,txt|max:10240', // Max 10MB
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('error', 'File yang diupload harus berformat CSV dan maksimal 10MB');
+        }
+
+        try {
+            $file = $request->file('csv_file');
+            $path = $file->getRealPath();
+
+            // Clear existing data
+            TopicModeling::truncate();
+
+            // Read CSV file
+            if (($handle = fopen($path, 'r')) !== FALSE) {
+                $header = fgetcsv($handle, 1000, ',');
+
+                // Validate CSV structure
+                $expectedHeaders = [
+                    'topic_id', 'topic_keywords', 'doc_count', 'share',
+                    'avg_topic_score', 'avg_sentiment', 'pos_rate', 'neg_rate', 'neu_rate'
+                ];
+                $headerMap = [];
+
+                foreach ($expectedHeaders as $expectedHeader) {
+                    $index = array_search($expectedHeader, $header);
+                    if ($index === false) {
+                        fclose($handle);
+                        return redirect()->back()
+                            ->with('error', "Kolom '$expectedHeader' tidak ditemukan dalam file CSV");
+                    }
+                    $headerMap[$expectedHeader] = $index;
+                }
+
+                $insertData = [];
+                $rowCount = 0;
+
+                while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                    $rowCount++;
+
+                    // Skip empty rows
+                    if (empty(array_filter($data))) {
+                        continue;
+                    }
+
+                    $insertData[] = [
+                        'topic_id' => (int) ($data[$headerMap['topic_id']] ?? 0),
+                        'topic_keywords' => $data[$headerMap['topic_keywords']] ?? '',
+                        'doc_count' => (int) ($data[$headerMap['doc_count']] ?? 0),
+                        'share' => (float) ($data[$headerMap['share']] ?? 0),
+                        'avg_topic_score' => (float) ($data[$headerMap['avg_topic_score']] ?? 0),
+                        'avg_sentiment' => (float) ($data[$headerMap['avg_sentiment']] ?? 0),
+                        'pos_rate' => (float) ($data[$headerMap['pos_rate']] ?? 0),
+                        'neg_rate' => (float) ($data[$headerMap['neg_rate']] ?? 0),
+                        'neu_rate' => (float) ($data[$headerMap['neu_rate']] ?? 0),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+
+                    // Insert in batches of 100
+                    if (count($insertData) >= 100) {
+                        TopicModeling::insert($insertData);
+                        $insertData = [];
+                    }
+                }
+
+                // Insert remaining data
+                if (!empty($insertData)) {
+                    TopicModeling::insert($insertData);
+                }
+
+                fclose($handle);
+
+                return redirect()->route('dashboard.topics')
+                    ->with('success', "Berhasil mengupload dan memproses $rowCount data topic modeling");
+
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Gagal membaca file CSV');
+            }
+
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat memproses file: ' . $e->getMessage());
